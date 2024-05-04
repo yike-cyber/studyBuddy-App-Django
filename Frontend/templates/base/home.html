@@ -1,7 +1,14 @@
 {% extends "main.html" %} {% block content %}
 <h1>This is home page</h1>
+<a href="{% url 'create-room' %}">Create room</a>
+
 {% for room in rooms%}
 <div class="">
-  <a href="{% url 'room' room.id %}">{{room.id}}---{{room.name}}</a>
+  <a href="{% url 'update-room' room.id %}">Edit</a>
+  <a href="{% url 'delete-room' room.id %}">delete</a>
+  <span>@{{room.host.username}}</span>
+  <h5><a href="{% url 'room' room.id %}">{{room.id}}---{{room.name}}</a></h5>
+  <small>{{room.topic}}</small>
+  <hr />
 </div>
 {% endfor %} {% endblock content %}
