@@ -1,4 +1,37 @@
-<a href="/">
-  <h1>Logo</h1>
-</a>
-<hr />
+{% load static %}
+<nav class="flex justify-between items-center">
+  <div class="flex justify-start ml-2 items-center">
+    <a href="/">
+      <img
+        src="{% static '/images/logo.svg' %}"
+        alt="profile_img"
+        class="w-8 h-8 rounded"
+      />
+    </a>
+    <h2 class="text-gray-500 text-4xl ml-1 pl-1">StudyBuddy</h2>
+    <div class="mt-4 mb-0  ml-4 mb-2  items-center">
+    <form action="" method="POST" class=" flex  py-2 rounded px-2">
+      <input class="bg-gray-200 mx-2  px-2 py-2 rounded" type="text" placeholder=" search...">
+     <span class=" py-2 "> <img src="{% static '/images/icons/search.svg'%}" alt="searh_icon" class="h-6 w-6"></span>
+    </form>
+  </div>
+  </div>
+  
+  <div class="flex justify-around align-middle mr-2 text-white">
+    <div class=" flex justify-around text-xl px-4">
+      <span class="ml-4">D</span>
+      <span class="ml-4">Share prototype</span>
+      <span class="ml-4">Option</span>
+    </div>
+    <div class="ml-4 px-4">
+        <img
+          src="{% static '/images/dennis.jpg' %}"
+          alt="profile_img"
+          class="w-8 h-8 rounded"
+        />
+    </div>
+
+    </div>
+  </div>
+  <hr />
+</nav>

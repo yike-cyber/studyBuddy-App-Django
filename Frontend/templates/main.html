@@ -1,10 +1,14 @@
 <html lang="en">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Main</title>
+    <link rel="stylesheet" href="{% static '/css/public/styles.css' %}" />
   </head>
-  <body>
-    {% include "navbar.html" %} {% block content %} {% endblock content %}
+  <body class="bg-gray-400">
+    <div class="mx-0 px-0">
+      {% include "navbar.html" %} {% block content %} {% endblock content %}
+    </div>
   </body>
 </html>
