@@ -10,10 +10,12 @@
     </a>
     <h2 class="text-gray-500 text-4xl ml-1 pl-1">StudyBuddy</h2>
     <div class="mt-4 mb-0  ml-4 mb-2  items-center">
-    <form action="" method="POST" class=" flex  py-2 rounded px-2">
-      <input class="bg-gray-200 mx-2  px-2 py-2 rounded" type="text" placeholder=" search...">
+    <form action="{% url 'home' %}" method="GET" class=" flex  py-2 rounded px-2">
+      <input class="bg-gray-200 mx-2  px-2 py-2 rounded" type="text" name='q' placeholder=" search rooms...">
      <span class=" py-2 "> <img src="{% static '/images/icons/search.svg'%}" alt="searh_icon" class="h-6 w-6"></span>
     </form>
+
+    <a href="{% url 'login' %}">Login</a>
   </div>
   </div>
   
