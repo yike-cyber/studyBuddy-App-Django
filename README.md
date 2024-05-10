@@ -1,1 +1,2 @@
-#django project
+# django project
+### studyBuddy-App-Django is a collaborative study platform designed to foster peer-to-peer learning and discussion. With this Django-based web application, students can create study rooms and initiate topics for discussion within those rooms. Peers can then join these rooms, comment on topics, and engage in fruitful discussions, enhancing collaborative learning experiences. Built with Django's robust framework, studyBuddy-App-Django provides a seamless and intuitive interface for students to connect, share knowledge, and support each other's academic endeavors."
