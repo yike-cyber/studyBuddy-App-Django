@@ -1,7 +1,7 @@
 {% extends "main.html" %} {% block content %}
 <div class="grid grid-flow-col">
 
-  <div class="grid-cols-8 bg-blue-100">
+  <div class="grid-cols-8 bg-gray-500">
     <h2>{{room.name}}</h2>
 
     <p>{{room.description}}</p>
@@ -26,7 +26,7 @@
     <div>
       <form action="" method="POST">
         {% csrf_token %}
-        <input type="text" name="body" placeholder="write your message here.." />
+        <input class="text-black m-1" type="text" name="body" placeholder="write your message here.." />
       </form>
     </div>
     {% endif %}

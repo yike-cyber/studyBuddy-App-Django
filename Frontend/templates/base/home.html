@@ -1,10 +1,13 @@
 {% extends "main.html" %} {% block content %}
 
 <div class="grid grid-flow-col">
+  <!--Topic start-->
   <div class="col-span-3 bg-gray-100 text-gray-500">
     {% include 'base/topics_component.html' %}
   </div>
+  <!--Topic end-->
 
+  <!--Room list start-->
   <div class="col-span-6">
     <h5>{{room_count}} rooms available</h5>
     <a href="{% url 'create-room' %}">Create room</a>
@@ -12,9 +15,11 @@
     {% include 'base/feed_component.html' %}
 
   </div>
+  <!--Room list end-->
 
+  <!--Activities start-->
   <div class="col-span-3">
     {% include 'base/activity_component.html' %}
   </div>
-
+  <!--Activities end-->
   {% endblock content %}
