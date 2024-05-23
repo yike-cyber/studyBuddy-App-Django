@@ -90,6 +90,7 @@ def room(request,pk):
         room.participants.add(request.user)
         return redirect('room',pk = room.id)
     context = {'room':room,
+               'current_user': request.user,
                'room_messages':room_messages,
                'participants':participants,
                }
@@ -118,12 +119,22 @@ def createRoom(request):
     topics = Topic.objects.all
      
     if request.method =='POST':
-        form = RoomForm(request.POST)
-        if form.is_valid():
-           room =  form.save(commit=False)
-           room.host = request.user
-           room.save()
-           return redirect('home')
+        topic_name = request.POST.get('topic')
+        topic,created = Topic.objects.get_or_create(name=topic_name)
+        
+        Room.objects.create(
+            host = request.user,
+            topic = topic,
+            name = request.POST.get('name'),
+            description = request.POST.get('description')
+            
+        )
+        #form = RoomForm(request.POST)
+        # if form.is_valid():
+        #    room =  form.save(commit=False)
+        #    room.host = request.user
+        #    room.save()
+        return redirect('home')
         
     context = {'form':form,
                'topics':topics}

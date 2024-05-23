@@ -1,43 +1,104 @@
 {% extends "main.html" %} {% block content %}
-<div class="grid grid-flow-col">
+{%load static %}
+<div class="grid grid-flow-col gap-2">
 
-  <div class="grid-cols-8 bg-gray-500">
-    <h2>{{room.name}}</h2>
+  <div class="grid-cols-8 bg-gray-700 mx-2">
+    <div class="flex flex-row items-center justify-start  mt-2 px-2 bg-purple-700 rounded">
+      <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
+          alt="left-arrow"></a>
+      <p class="text-xl text-gray-500 font-semibold ml-2">Study Room</p>
+    </div>
+    <div class="flex flex-row justify-between mt-2 px-2">
+      <div class="">
+        <h2 class="font-semibold text-md text-teal-500">{{room.name}}</h2>
+        <p>Hosted By</p>
+        <div class="flex flex-row">
+          <div class="relative">
+            <img src="{%static 'images/dennis.jpg' %}" class="w-8 h-8 rounded-full inline" alt="">
+            <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+              </span>
+          </div>
+          <div class="ml-2 font-normal">
+            <p class="text-teal-500 "> <a href="{%url 'user-profile' room.host.id %}">@{{room.host.username}}</a></p>
+          </div>
 
-    <p>{{room.description}}</p>
-
-    <div>
-      <h3>Conversation</h3>
-      <hr />
-      {% for message in room_messages %}
-      <div>
-        {% if request.user == message.user %}
-        <a href="{% url 'delete-message' message.id %}">delete</a>
-        {% endif %}
-        <small>@{{message.user}} {{message.created|timesince}} ago</small>
-        <p>{{message.body}}</p>
-        <hr />
+        </div>
+        <a href="{% url 'home'   %}?q={{room.topic.name}}">
+          <p class=" mt-2 text-lg font-sm bg-gray-600 rounded  pl-2 pr-1"><small>{{room.topic.name}}</small></p>
+        </a>
       </div>
-
-      {% endfor %}
+      <p class="text-sm mr-2">{{room.created|timesince}} ago</p>
     </div>
 
-    {% if request.user.is_authenticated %}
-    <div>
-      <form action="" method="POST">
+
+
+    <div class="mx-2 bg-gray-900  ">
+      <h3>Conversations</h3>
+      <div class=" overflow-y-scroll">
+        {% for message in room_messages %}
+        <div class=" border-l border-green-500 m-2 p-2 ">
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-row">
+              <div class="relative">
+                <img src="{%static 'images/dennis.jpg' %}" class="w-8 h-8 rounded-full inline" alt="">
+                <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                  </span>
+              </div>
+              <div class="ml-2 flex flex-row">
+                <small> <a href="{% url 'user-profile' message.user.id %}" class="text-teal-500">@{{message.user}}
+
+                  </a>
+                </small>
+                <p class="text-sm font-thin ml-2">{{message.created|timesince}} ago</p>
+              </div>
+            </div>
+
+
+            {% if current_user == message.user%}
+            <a href="{% url 'delete-message' message.id %}"><img src="{%static 'assets/icons/remove.svg' %}"
+                class="w-4 w-4 bg-blue-400" alt="delete"></a>
+            {% endif %}
+
+          </div>
+
+          <p class="bg-gray-900 mt-3 px-2 py-2 rounded">{{message}}</p>
+
+
+        </div>
+
+        {% endfor %}
+      </div>
+    </div>
+
+
+    <div class="">
+      <form action="" method="POST" class=" py-2 relative px-2 ">
         {% csrf_token %}
-        <input class="text-black m-1" type="text" name="body" placeholder="write your message here.." />
+        <input class="bg-gray-600 text-sm text-gray-200  p-2 rounded absolute w-full sticky" type="text" name="body"
+          placeholder="write your message here.." />
       </form>
     </div>
-    {% endif %}
+
   </div>
 
-  <div class="grid-cols-4">
-    <h3>participants</h3>
-    <hr class="bg-black">
+  <div class="grid-cols-4 bg-gray-700 mx-2">
+    <div class="bg-purple-700 rounded pl-2  mt-2">
+      <p class="text-xl text-gray-500 font-semibold mr-2 inline">Participants </p> <span class="text-sm ">(5
+        Joined)</span>
+    </div>
+
     {% for user in participants%}
-    <div>
-      <p>@{{user.username}}</p>
+    <div class="flex flex-row mt-2 px-2 mx-2 ">
+      <div class="relative">
+        <img src="{%static 'images/dennis.jpg' %}" class="w-8 h-8 rounded-full inline" alt="">
+        <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+          </span>
+      </div>
+      <div class="ml-2 text-gray-500 font-normal">
+        <p class="text-teal-500 ">@{{user.username}}</p>
+        <p>software Developer</p>
+      </div>
+
     </div>
 
     {% endfor %}

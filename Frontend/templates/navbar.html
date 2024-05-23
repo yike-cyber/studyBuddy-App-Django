@@ -31,7 +31,7 @@
       <img src="{% static '/images/dennis.jpg' %}" alt="profile_img" class="w-10 h-10 rounded-full pb-0" />
       <div class="mx-2 text-sm text-gray-500">
         <p class="flex flex-row">
-          <span>Yike</span>
+          <span>{{request.user}}</span>
           <img src="{%static '/assets/icons/chevron-down.svg' %}" class="w-4 h-4 ml-4 mt-2 " alt="logout arrow">
         </p>
         <p>@yike</p>
