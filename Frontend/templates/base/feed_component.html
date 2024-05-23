@@ -5,7 +5,11 @@
     <div class="bg-gray-700 my-2 rounded mx-2">
         <div class="flex flex-row justify-between mb-2">
             <div class="flex flex-row justify-center mx-2 my-2">
-                <img src="{%static 'images/dennis.jpg' %}" alt="" class="w-8 h-8 rounded-full">
+                <div class="relative">
+                    <img src="{%static 'images/dennis.jpg' %}" alt="" class="w-8 h-8 rounded-full">
+                    <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                        </span>
+                </div>
                 <a href="{% url 'user-profile' room.host.id %}" class="ml-2 text-teal-400">@{{room.host.username}}</a>
             </div>
             <p class="text-sm font-light">{{room.created|timesince}} ago</p>
