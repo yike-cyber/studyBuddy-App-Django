@@ -1,6 +1,6 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-col col-gap-3 ">
+<div class="grid grid-flow-col col-gap-2">
   <!--Topic start-->
   <div class="col-span-3 text-gray-500 ">
     {% include 'base/topics_component.html' %}
@@ -8,7 +8,7 @@
   <!--Topic end-->
 
   <!--Room list start-->
-  <div class="col-span-6 text-gray-500">
+  <div class="col-span-7 text-gray-500">
     <div class="flex flex-row items-center justify-between  mx-1">
       <div>
         <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
@@ -27,7 +27,7 @@
   <!--Room list end-->
 
   <!--Activities start-->
-  <div class="col-span-3">
+  <div class="col-span-2">
     {% include 'base/activity_component.html' %}
   </div>
   <!--Activities end-->
