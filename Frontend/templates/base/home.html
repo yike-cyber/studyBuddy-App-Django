@@ -1,16 +1,25 @@
 {% extends "main.html" %} {% block content %}
-
-<div class="grid grid-flow-col">
+{%load static %}
+<div class="grid grid-flow-col col-gap-3 ">
   <!--Topic start-->
-  <div class="col-span-3 bg-gray-100 text-gray-500">
+  <div class="col-span-3 text-gray-500 ">
     {% include 'base/topics_component.html' %}
   </div>
   <!--Topic end-->
 
   <!--Room list start-->
-  <div class="col-span-6">
-    <h5>{{room_count}} rooms available</h5>
-    <a href="{% url 'create-room' %}">Create room</a>
+  <div class="col-span-6 text-gray-500">
+    <div class="flex flex-row items-center justify-between  mx-1">
+      <div>
+        <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
+        <h5 class="text-sm text-gray-300">{{room_count}} Rooms available</h5>
+      </div>
+
+      <a href="{% url 'create-room' %}" class="mr-2">
+        <button class=" bg-yellow-200 rounded"><img src="{%static 'assets/icons/add.svg'%}" class="w-4 h-4 inline mx-1 "
+            alt="">Create Room</button>
+      </a>
+    </div>
 
     {% include 'base/feed_component.html' %}
 
