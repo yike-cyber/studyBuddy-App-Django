@@ -1,37 +1,48 @@
 {% extends "main.html" %} {% block content %}
-<div class="px-40 mx-40 my-10 py-5 rounded">
-  <div class=" bg-purple-700">
-    <p class="text-xl text-gray-500 font-semibold ml-2">Create/Update Study Room</p>
+{% load static %}
+<div class="items-center mt-10 sm:px-40 ">
+  <div class="bg-gray-700 lg:mx-64 text-white rounded ">
+    <div class=" flex flex-row bg-purple-700 rounded items-center pl-2">
+      <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
+          alt="left-arrow"></a>
+      <p class="text-xl text-gray-500 font-semibold ml-2">Create Room</p>
 
+    </div>
+    <form method="POST" action="" class="my-4">
+      {% csrf_token %}
+      <!--form to create form-->
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Topic</div>
+        <input type="text" required placeholder="topic..." name="topic" list="topic_list"
+          class="focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500"
+          value="{{room.topic.name}}">
+
+
+        <datalist class="topic_list">
+          <select id="room_topic">
+            {% for topic in topics %}
+            <option value="{{topic.name}}">{{topic.name}}</option>
+
+            {%endfor%}
+          </select>
+        </datalist>
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Name</div>
+        <input type="text" name="name" placeholder="room name ..." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500">
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm pb-2 text-gray-400">Description</div>
+        <textarea name="description" placeholder="Add description here..." id="desc_text"
+          class="focus:outline-none focus:border-yellow-500 w-64 px-4 bg-gray-500 rounded bg-opacity-50 text-sm py-2 border border-green-500 ">{{room.description}}</textarea>
+      </div>
+
+      <div class="flex flex-row justify-end mr-2 pr-2  pb-4">
+        <input type="reset" value="Cancel" class="mr-2 px-2 py-1 bg-gray-500 rounded hover:bg-red-500">
+        <input type="submit" value="Submit" class="bg-green-400 rounded px-2 py-1 hover:bg-blue-700" />
+      </div>
+    </form>
   </div>
-  <form method="POST" action="" class=" py-3 bg-gray-700 text-center">
-    {% csrf_token %}
-    <!--form to create form-->
-    <div class="flex flex-col  bg-gray-600 text-purple-700">
-      <label for="room_name" class=""> Room Topic</label>
-      <input type="text" name="topic" list="topic_list">
-      <datalist id="topic_list" class="">
-        <select name="" id="room_topic">
-          {% for topic in topics %}
-          <option value="{{topic.name}}">{{topic.name}}</option>
-          {% endfor %}
-        </select>
-      </datalist>
-
-    </div>
-    <div class="flex flex-col ">
-      <label for="room_name" class=""> Room Name</label>
-      {{form.name}}
-    </div>
-    <div class="flex flex-col ">
-      <label for="room_description" class=""> Room Description</label>
-      {{form.description}}
-    </div>
-
-    <div class="flex flex-row justify-end mr-2 pr-2  mt-2">
-      <input type="reset" value="Cancel" class="mr-2 bg-gray-500 rounded">
-      <input type="submit" value="Submit" class="bg-green-400 rounded" />
-    </div>
-  </form>
 </div>
 {% endblock content %}

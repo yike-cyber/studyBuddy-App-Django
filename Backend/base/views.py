@@ -21,10 +21,14 @@ def loginPage(request):
         password = request.POST.get('password')
     
         print(request.POST.get('password'))
+        print(request.POST.get('username'))
+        try:
+           user = authenticate(username = username,password=password)
+           print(user.username)
+        except:
+            messages.error(request,'user doesn\'t esist')
         
-        user = authenticate(username = username,password=password)
-        
-        if user is not None:
+        if user is not None: 
             login(request,user)
             return redirect('home')
         else:
@@ -41,15 +45,31 @@ def logoutUser(request):
 def registerPage(request):
     form = UserCreationForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.save()
-            login(request,user)
-            return redirect('home')
+        # form = UserCreationForm(request.POST)
+        username = request.POST.get('username').lower()
+        password  = request.POST.get('password')
+        password2 = request.POST.get('password2')
+    
+        if User.objects.filter(username =username):
+            messages.error(request,'user name already exist!')
+            return redirect('register')
+        elif password != password2:
+            messages.error(request,'password mismatch!')
+            return redirect('register')
+        
         else:
-            messages.error(request,'an error occured during registration')
+           user = User.objects.create(username = username,password = password)
+           user.save()
+           login(request,user)
+           return redirect('login')
+        
+        # if form.is_valid():
+        #     user = form.save(commit=False)
+        #     user.username = user.username.lower()
+        #     user.save()
+        #     login(request,user)
+        #     return redirect('home')
+        
     return render(request,'base/login_register.html',{'form':form})
 
 
@@ -122,21 +142,22 @@ def createRoom(request):
         topic_name = request.POST.get('topic')
         topic,created = Topic.objects.get_or_create(name=topic_name)
         
-        Room.objects.create(
+        room =  Room.objects.create(
             host = request.user,
             topic = topic,
             name = request.POST.get('name'),
             description = request.POST.get('description')
             
         )
+        room.save()
         #form = RoomForm(request.POST)
         # if form.is_valid():
         #    room =  form.save(commit=False)
         #    room.host = request.user
         #    room.save()
-        return redirect('home')
+        return redirect('create-room')
         
-    context = {'form':form,
+    context = {
                'topics':topics}
     return render(request,'base/room_form.html',context) 
 
@@ -149,13 +170,17 @@ def updateRoom(request,pk):
     if request.user != room.host:
         return HttpResponse('You are not allowed here!!.')
     
-    if request.method == 'POST':
-        form = RoomForm(request.POST,instance=room)
-        if form.is_valid:
-            form.save()
-            return redirect('home')
+    if request.method =='POST':
+        topic_name = request.POST.get('topic')
+        topic,created = Topic.objects.get_or_create(name=topic_name)
+        room.name = request.POST.get('name')
+        room.topic = topic
+        room.description = request.POST.get('description')
+        room.save()
+        return redirect('home')
     
-    context = {'form':form,
+    context = {'room':room,
+               'type':'update',
                'topics':topics
                }
     

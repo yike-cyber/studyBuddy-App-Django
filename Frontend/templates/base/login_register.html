@@ -1,30 +1,90 @@
-{% extends "main.html" %} {% block content %} {% if page == 'login' %}
-<div>
-  <form method="POST" action="">
-    {% csrf_token %}
+{% extends "main.html" %} {% block content %}
+{% load static %}
+<div class="items-center mt-10 sm:px-40 ">
+  <div class="bg-gray-700 lg:mx-64 text-white rounded ">
+    <div class=" flex flex-row bg-purple-700 rounded items-center pl-2">
+      <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
+          alt="left-arrow"></a>
+      <p class="text-xl text-gray-500 font-semibold ml-2">{% if page == 'login' %} Login {%else%} Register{%endif%}</p>
 
-    <label>Username:</label>
-    <input type="text" name="username" placeholder="Enter Username" />
+    </div>
+    {% if page == 'login' %}
+    {% if messages %}
+    <ul class="my-2 mx-20">
+      {% for message in messages %}
+      <li class="text-xs text-red-500 pb-2">{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
 
-    <label>Password:</label>
-    <input type="password" name="password" placeholder="Enter Password" />
+    <form method="POST" action="" class="my-4">
+      {% csrf_token %}
+      <!--form to create form-->
 
-    <input type="submit" name="login" value="Login" />
-  </form>
-  <p>havn't signed up yet?</p>
-  <a href="{% url 'register' %}">Sign up</a>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">User name</div>
+        <input type="text" name="username" placeholder="write user name . . ." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Password</div>
+        <input type="password" name="password" placeholder=" write password  . . ." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+      </div>
+
+
+      <div class="mx-20 my-2 pb-2">
+        <input type="submit" value="Login" class="bg-green-400 rounded px-2 py-1 hover:bg-blue-700 w-full" />
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <input type="reset" value="clear" class="bg-red-400 rounded px-2 py-1 hover:bg-red-900 w-full" />
+      </div>
+    </form>
+    <div class="text-sm mx-2 px-2 py-2">
+      <p class="text-blue-500 inline">signed up ?</p>
+      <a href="{% url 'register' %}" class="ml-2 ">Register</a>
+    </div>
+    {% else %}
+    {% if messages %}
+    <ul class="my-2 mx-20">
+      {% for message in messages %}
+      <li class="text-xs text-red-500 pb-2">{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <form method="POST" action="" class="my-4">
+      {% csrf_token %}
+      <!--form to create form-->
+
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">User name</div>
+        <input type="text" name="username" placeholder="write your name . . ." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Password</div>
+        <input type="password" name="password" placeholder="write your password. . ." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Confirm password</div>
+        <input type="password" name="password2" placeholder="confirm password . . ." required value="{{room.name}}"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+      </div>
+
+
+      <div class="mx-20 my-2 pb-2">
+        <input type="submit" value="Register" class="bg-green-400 rounded px-2 py-1 hover:bg-blue-700 w-full" />
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <input type="reset" value="clear" class="bg-red-400 rounded px-2 py-1 hover:bg-red-900 w-full" />
+      </div>
+    </form>
+    <div class="text-sm mx-2 px-2 py-2">
+      <p class="text-blue-500 inline">already signed up ?</p>
+      <a href="{% url 'login' %}" class="ml-2 hover:text-yellow-500 ">login</a>
+    </div>
+    {% endif %}
+  </div>
 </div>
-
-{% else %}
-
-<div>
-  <form method="POST" action="">
-    {% csrf_token %} {{form.as_p}}
-
-    <input type="submit" name="register" value="Register" />
-  </form>
-  <p>already signed up ?</p>
-  <a href="{% url 'login' %}">Login</a>
-</div>
-
-{% endif %} {% endblock content %}
+{% endblock content %}

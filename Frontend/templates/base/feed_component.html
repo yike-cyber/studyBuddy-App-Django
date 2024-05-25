@@ -27,10 +27,14 @@
                 <p class="mx-2 px-2 text-lg font-sm bg-gray-600 rounded "><small>{{room.topic.name}}</small></p>
             </a>
         </div>
-        <!-- {% if room.host == request.user %}
-        <a href="{% url 'update-room' room.id %}">Edit</a>
-        <a href="{% url 'delete-room' room.id %}">delete</a>
-        {% endif %} -->
+        {% if room.host == request.user %}
+        <div class="flex flex-row py-2 mx-2">
+            <a href="{% url 'update-room' room.id %}" class="mr-3"><img src="{% static 'assets/icons/edit.svg' %}"
+                    class="w-4 h-4" alt="edit"></a>
+            <a href="{% url 'delete-room' room.id %}"><img src="{% static 'assets/icons/delete.svg' %}" class="w-4 h-4"
+                    alt="delete"></a>
+        </div>
+        {% endif %}
 
 
 
