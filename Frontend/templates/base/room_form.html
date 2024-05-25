@@ -12,7 +12,7 @@
       {% csrf_token %}
       <!--form to create form-->
       <div class="mx-20 my-2 pb-2">
-        <div class="text-sm text-gray-400 pb-2">Topic</div>
+        <div class="text-sm text-gray-400 pb-2">Room Topic</div>
         <input type="text" required placeholder="topic..." name="topic" list="topic_list"
           class="focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500"
           value="{{room.topic.name}}">
@@ -28,12 +28,12 @@
         </datalist>
       </div>
       <div class="mx-20 my-2 pb-2">
-        <div class="text-sm text-gray-400 pb-2">Name</div>
+        <div class="text-sm text-gray-400 pb-2">Room Name</div>
         <input type="text" name="name" placeholder="room name ..." required value="{{room.name}}"
           class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500">
       </div>
       <div class="mx-20 my-2 pb-2">
-        <div class="text-sm pb-2 text-gray-400">Description</div>
+        <div class="text-sm pb-2 text-gray-400">Room Description</div>
         <textarea name="description" placeholder="Add description here..." id="desc_text"
           class="focus:outline-none focus:border-yellow-500 w-64 px-4 bg-gray-500 rounded bg-opacity-50 text-sm py-2 border border-green-500 ">{{room.description}}</textarea>
       </div>

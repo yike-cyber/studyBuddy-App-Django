@@ -9,7 +9,7 @@
       <p class="text-xl text-gray-500 font-semibold ml-2">Study Room</p>
     </div>
     <div class="flex flex-row justify-between mt-2 px-2">
-      <div class="">
+      <div class="w-auto">
         <h2 class="font-semibold text-md text-teal-500">{{room.name}}</h2>
         <p>Hosted By</p>
         <div class="flex flex-row">
@@ -23,8 +23,11 @@
           </div>
 
         </div>
-        <a href="{% url 'home'   %}?q={{room.topic.name}}">
-          <p class=" mt-2 text-lg font-sm bg-gray-600 rounded  pl-2 pr-1"><small>{{room.topic.name}}</small></p>
+        <div class="font-normal ml-2 bg-gray-900 px-2 text-sm rounded my-2">
+          <p class="w-full py-3 px-2">{{room.description}}</p>
+        </div>
+        <a href="{% url 'home'   %}?q={{room.topic.name}}" class="w-full">
+          <p class=" mt-2  font-sm bg-gray-600 rounded px-2  text-sm w-full">{{room.topic.name}}</p>
         </a>
       </div>
       <p class="text-sm mr-2">{{room.created|timesince}} ago</p>
@@ -61,8 +64,10 @@
 
           </div>
 
-          <p class="bg-gray-900 mt-3 px-2 py-2 rounded">{{message}}</p>
-
+          <p
+            class="bg-gray-400 bg-opacity-25 border-b border-yellow-200 border-opacity-50 mt-3 px-2 py-2 rounded text-sm table">
+            {{message|truncatewords:'100'}}
+          </p>
 
         </div>
 

@@ -10,6 +10,8 @@ from django.contrib import messages
 from .models import Room ,Topic,Message
 from . forms import RoomForm
 
+from .common import mainView
+
 
 def loginPage(request):
     page = 'login'
@@ -74,24 +76,9 @@ def registerPage(request):
 
 
 def home(request):
-    q = request.GET.get('q') if request.GET.get('q') != None else ''
-    rooms = Room.objects.filter(
-            Q(topic__name__icontains = q)|
-            Q(description__icontains = q)|
-            Q(name__icontains = q)
-              
-              ) 
-    topic = Topic.objects.all()
-    room_count = rooms.count()
-    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
-     
-    
-    context = {'rooms':rooms,
-               'room_count':room_count,
-               'topics':topic,
-              'room_messages':room_messages,
-                
-               }
+    q = request.GET.get('q')
+    context = mainView(request,q)
+  
     return render(request,'base/home.html',context)
 
 def room(request,pk):
@@ -112,6 +99,7 @@ def room(request,pk):
     context = {'room':room,
                'current_user': request.user,
                'room_messages':room_messages,
+                'visible_words':100,
                'participants':participants,
                }
              
@@ -212,4 +200,19 @@ def deleteMessage(request,pk):
     context = {'message':message}
     return render(request,'base/delete.html',context)
     
+def editMessage(request,pk):
+    message = Message.objects.get(id=pk)
+    if request.user != message.user:
+        return HttpResponse('You are not allowed here!!.')
     
+    if request.method == "POST":
+         message.body = request.POST.get('body')
+         message.save()
+         return redirect('home')
+    
+    q = request.GET.get('q')
+    message = {'message':message}
+    main_view = mainView(request,q)
+    main_view.update(message)
+    print(message)
+    return render(request,'base/edit_message.html',main_view)
