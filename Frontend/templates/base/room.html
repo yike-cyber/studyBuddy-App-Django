@@ -88,8 +88,8 @@
 
   <div class="grid-cols-4 bg-gray-700 mx-2">
     <div class="bg-purple-700 rounded pl-2  mt-2">
-      <p class="text-xl text-gray-500 font-semibold mr-2 inline">Participants </p> <span class="text-sm ">(5
-        Joined)</span>
+      <p class="text-xl text-gray-500 font-semibold mr-2 inline">Participants </p> <span
+        class="text-sm ">{{room.participants.count}} Joined</span>
     </div>
 
     {% for user in participants%}

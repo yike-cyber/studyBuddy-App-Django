@@ -20,7 +20,9 @@
                             </a>
                         </small>
                         <p class="text-sm font-thin">{{message.created|timesince}} ago</p>
-                        <p class="text-md text-teal-500">replied to post "{{message.room}}"</p>
+                        <p class="text-md text-teal-500">replied to post <a
+                                href="{% url 'room' message.room.id %}">"{{message.room}}"</a>
+                        </p>
                     </div>
                 </div>
                 {% if request.user == message.user %}

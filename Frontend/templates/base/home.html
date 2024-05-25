@@ -2,22 +2,22 @@
 {%load static %}
 <div class="grid grid-flow-col col-gap-2">
   <!--Topic start-->
-  <div class="col-span-3 text-gray-500 ">
+  <div class="col-span-3 text-gray-500">
     {% include 'base/topics_component.html' %}
   </div>
   <!--Topic end-->
 
   <!--Room list start-->
   <div class="col-span-8 text-gray-500">
-    <div class="flex flex-row items-center justify-between  mx-1">
+    <div class="flex flex-row items-center justify-between  mx-1 ">
       <div>
         <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
         <h5 class="text-sm text-gray-300">{{room_count}} Rooms available</h5>
       </div>
 
       <a href="{% url 'create-room' %}" class="mr-2">
-        <button class=" bg-yellow-200 rounded"><img src="{%static 'assets/icons/add.svg'%}" class="w-4 h-4 inline mx-1 "
-            alt="">Create Room</button>
+        <button class=" bg-yellow-200 rounded py-1 px-2"><img src="{%static 'assets/icons/add.svg'%}"
+            class="w-4 h-4 inline mx-1 " alt="create_room">Create Room</button>
       </a>
     </div>
 

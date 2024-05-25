@@ -118,6 +118,7 @@ def userProfile(request,pk):
                'rooms':rooms,
                'room_messages':room_messages,
                'topics':topics,
+               'visible_words':5,
                }
     return render(request,'base/profile.html',context)
 
