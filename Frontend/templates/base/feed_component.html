@@ -12,20 +12,17 @@
                 </div>
                 <a href="{% url 'user-profile' room.host.id %}" class="ml-2 text-teal-400">@{{room.host.username}}</a>
             </div>
-            <p class="text-sm font-light">{{room.created|timesince}} ago</p>
+            <p class="text-sm font-light">{{room.created|timesince}}</p>
         </div>
         <h5 class="mx-2 mb-4">
             <a href="{% url 'room' room.id %}">{{room.name}}</a>
         </h5>
         <hr style="color:lightblue; opacity: 0.2;">
         <div class="flex flex-row justify-between mx-2 py-2">
-            <div class=" flex flex-row  mx-2  items-center"> <img src="{%static 'assets/icons/user-group.svg' %}" alt=""
-                    class="w-3 h-4 mr-1">
-                <p>{{room.participants.count}} Joined</p>
+            <div class="mx-2">
+                <p>5 Joined</p>
             </div>
-            <a href="{% url 'home'   %}?q={{room.topic.name}}">
-                <p class="mx-2 px-2 text-lg font-sm bg-gray-600 rounded "><small>{{room.topic.name}}</small></p>
-            </a>
+            <p class="mx-2 text-lg font-medium"><small>{{room.topic.name}}</small></p>
         </div>
         {% if room.host == request.user %}
         <div class="flex flex-row py-2 mx-2">
