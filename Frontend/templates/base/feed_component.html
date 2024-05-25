@@ -2,7 +2,7 @@
 <div>
 
     {% for room in rooms%}
-    <div class="bg-gray-700 my-2 rounded mx-2">
+    <div class="bg-gray-700 my-2 rounded mx-2 w-full">
         <div class="flex flex-row justify-between mb-2">
             <div class="flex flex-row justify-center mx-2 my-2">
                 <div class="relative">
@@ -12,7 +12,7 @@
                 </div>
                 <a href="{% url 'user-profile' room.host.id %}" class="ml-2 text-teal-400">@{{room.host.username}}</a>
             </div>
-            <p class="text-sm font-light">{{room.created|timesince}}</p>
+            <p class="text-sm font-light">{{room.updated|timesince}} ago</p>
         </div>
         <h5 class="mx-2 mb-4">
             <a href="{% url 'room' room.id %}">{{room.name}}</a>
@@ -20,7 +20,7 @@
         <hr style="color:lightblue; opacity: 0.2;">
         <div class="flex flex-row justify-between mx-2 py-2">
             <div class="mx-2">
-                <p>5 Joined</p>
+                <p>{{room.participants.count}} Joined</p>
             </div>
             <p class="mx-2 text-lg font-medium"><small>{{room.topic.name}}</small></p>
         </div>

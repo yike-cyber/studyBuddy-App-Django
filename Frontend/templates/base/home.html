@@ -8,13 +8,9 @@
   <!--Topic end-->
 
   <!--Room list start-->
-<<<<<<< HEAD
-  <div class="col-span-8 text-gray-500">
-    <div class="flex flex-row items-center justify-between  mx-1 ">
-=======
   <div class="col-span-6 text-gray-500">
     <div class="flex flex-row items-center justify-between  mx-1">
->>>>>>> parent of 8176925 (feed component is implemented)
+
       <div>
         <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
         <h5 class="text-sm text-gray-300">{{room_count}} Rooms available</h5>
@@ -26,18 +22,17 @@
       </a>
     </div>
 
+
     {% include 'base/feed_component.html' %}
 
   </div>
   <!--Room list end-->
 
   <!--Activities start-->
-<<<<<<< HEAD
-  <div class="col-span-1">
-=======
   <div class="col-span-3">
->>>>>>> parent of 8176925 (feed component is implemented)
-    {% include 'base/activity_component.html' %}
+    <div class="col-span-3">
+      {% include 'base/activity_component.html' %}
+    </div>
   </div>
   <!--Activities end-->
   {% endblock content %}
