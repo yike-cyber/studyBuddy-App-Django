@@ -4,7 +4,8 @@
   "description": "All the course files for the Tailwind CSS tutorial on the Net Ninja YouTube channel.",
   "main": "index.js",
   "scripts": {
-    "build-css": "tailwindcss build src/styles.css -o public/styles.css"
+    "build-css": "tailwindcss build src/styles.css -o public/styles.css",
+    "watch-css": "tailwindcss -i src/styles.css -o public/styles.css --watch"
   },
   "repository": {
     "type": "git",
