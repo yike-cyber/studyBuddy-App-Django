@@ -5,7 +5,8 @@
     <div class=" flex flex-row bg-purple-700 rounded items-center pl-2">
       <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
           alt="left-arrow"></a>
-      <p class="text-xl text-gray-500 font-semibold ml-2">Create Room</p>
+      <p class="text-xl text-gray-500 font-semibold ml-2">{% if type == 'update'%}Update Room {%else%}Create Room
+        {%endif%}</p>
 
     </div>
     <form method="POST" action="" class="my-4">

@@ -1,14 +1,18 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-col grid-cols-4 gap-4 ">
+<div class="grid grid-flow-col grid-cols-4 gap-4  w-full">
   <!--Topic start-->
-  <div class="col-span-1 text-gray-500">
-    {% include 'base/topics_component.html' %}
+  <div class="col-span-1 max-h-screen overflow-y-auto scrolbar-thin">
+    <div class="col-span-1">
+      {% include 'base/topics_component.html' %}
+    </div>
   </div>
   <!--Topic end-->
 
+
   <!--Room list start-->
   <div class="col-span-2 text-gray-500 max-h-screen overflow-y-auto scrolbar-thin px-0 mx-0">
+    {%block home-content%}
     <div class="flex flex-row items-center justify-between  mx-1">
 
       <div>
@@ -24,7 +28,7 @@
 
 
     {% include 'base/feed_component.html' %}
-
+    {% endblock home-content%}
   </div>
   <!--Room list end-->
 

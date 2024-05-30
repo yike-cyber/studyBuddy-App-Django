@@ -2,14 +2,14 @@
 {%load static %}
 
 {% block content %}
-<div class="grid grid-flow-col col-gap-2">
+<div class="grid grid-flow-col grid-cols-4 gap-4 ">
     <!--Topic start-->
-    <div class="col-span-3 text-gray-500 ">
+    <div class="col-span-1 text-gray-500  max-h-screen overflow-y-auto scrolbar-thin">
         {% include 'base/topics_component.html' %}
     </div>
     <!--Topic end-->
     <!--message edit start-->
-    <div class="col-span-3 text-gray-500 mb-4 h-64">
+    <div class="col-span-2 text-gray-500 mb-4 h-64">
 
         <form action="" method="POST" class="bg-gray-700 pt-2 mt-3 rounded ">
             <div class="flex flex-row bg-purple-700 rounded  mx-10 px-5 py-1 items-center">
@@ -28,7 +28,7 @@
     </div>
     <!--message edit end-->
     <!-- activities start-->
-    <div class="col-span-3 text-gray-500 ">
+    <div class="col-span-1 text-gray-500 max-h-screen overflow-y-auto scrolbar-thin ">
         {% include 'base/activity_component.html' %}
     </div>
     <!--activities end -->

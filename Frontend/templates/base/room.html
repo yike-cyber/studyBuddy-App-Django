@@ -1,8 +1,8 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-col gap-2">
+<div class="grid grid-flow-col grid-cols-4 gap-2">
 
-  <div class="grid-cols-8 bg-gray-700 mx-2">
+  <div class=" bg-gray-700 mx-2 col-span-3 max-h-screen overflow-y-auto scrolbar-thin">
     <div class="flex flex-row items-center justify-start  mt-2 px-2 bg-purple-700 rounded">
       <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
           alt="left-arrow"></a>
@@ -86,14 +86,14 @@
 
   </div>
 
-  <div class="grid-cols-4 bg-gray-700 mx-2">
+  <div class="grid-cols-4 bg-gray-700 mx-2 col-span-1 max-h-screen overflow-y-auto scrolbar-thin">
     <div class="bg-purple-700 rounded pl-2  mt-2">
       <p class="text-xl text-gray-500 font-semibold mr-2 inline">Participants </p> <span
         class="text-sm ">{{room.participants.count}} Joined</span>
     </div>
 
     {% for user in participants%}
-    <div class="flex flex-row mt-2 px-2 mx-2 ">
+    <div class="flex flex-row mt-2 px-2 mx-2">
       <div class="relative">
         <img src="{%static 'images/yike.png' %}" class="w-8 h-8 rounded-full inline" alt="">
         <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">

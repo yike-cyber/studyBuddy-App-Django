@@ -4,7 +4,9 @@ from django.db.models import Q
 from .models import Room,Topic,Message
 
 def mainView(request,q):
-        q = request.GET.get(q) if request.GET.get(q) != None else ''
+        q = q if q != None else ''
+        print(q)
+
         rooms = Room.objects.filter(
                 Q(topic__name__icontains = q)|
                 Q(description__icontains = q)|

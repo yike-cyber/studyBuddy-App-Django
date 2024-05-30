@@ -10,6 +10,7 @@ urlpatterns = [
     path('',views.home,name='home'),
     path('room/<str:pk>/',views.room,name='room'),
     path('user-profile/<str:pk>/',views.userProfile,name='user-profile'),
+    path('edit-profile/<str:pk>/',views.editProfile,name='edit-profile'),
     
     
     path('create-room/',views.createRoom,name='create-room'),

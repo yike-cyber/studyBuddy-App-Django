@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="flex justify-between items-center bg-gray-900  w-full">
+<nav class="flex justify-between items-center bg-gray-900  left-0 top-0 w-full">
   <div class="flex justify-start ml-2 items-center">
     <div class="flex flex-row items-center">
       <a href="/" class="mt-1">
@@ -12,32 +12,105 @@
         <input
           class="focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500"
           type="text" name='q' placeholder=" search rooms...">
-        <span class=""> <img src="{% static '/images/icons/search.svg'%}" alt="searh_icon" class="h-6 w-6 my-2"></span>
+        <button type="submit" class=""> <svg class="w-5 h-5 ml-2 mt-2 fill-current" version="1.1"
+            xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <title>search</title>
+            <path
+              d="M32 30.586l-10.845-10.845c1.771-2.092 2.845-4.791 2.845-7.741 0-6.617-5.383-12-12-12s-12 5.383-12 12c0 6.617 5.383 12 12 12 2.949 0 5.649-1.074 7.741-2.845l10.845 10.845 1.414-1.414zM12 22c-5.514 0-10-4.486-10-10s4.486-10 10-10c5.514 0 10 4.486 10 10s-4.486 10-10 10z">
+            </path>
+          </svg>
+        </button>
       </form>
 
-      {% if request.user.is_authenticated %}
 
-      <a href="{% url 'logout' %}">Logout</a>
-
-      {% else %}
-      <a href="{% url 'login' %}">Login</a>
-      {% endif %}
 
 
     </div>
   </div>
 
   <div class="items-center mr-2 text-white mr-16 pr-16">
-    <div class=" flex flex-row ml-4 px-4 pb-0">
-      <img src="{% static '/images/yike.png' %}" alt="profile_img" class="w-10 h-10 rounded-full pb-0" />
-      <div class="mx-2 text-sm text-gray-500">
-        <p class="flex flex-row">
-          <span>{{request.user}}</span>
-          <img src="{%static '/assets/icons/chevron-down.svg' %}" class="w-4 h-4 ml-4 mt-2 " alt="logout arrow">
+    <div class=" flex flex-row ml-4 px-4 pb-0 pt-2">
+      <div class="relative mt-2">
+        <img src="{%static 'images/Yike.png' %}" alt="" class="w-8 h-8 rounded-full">
+        <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+          </span>
+      </div>
+      <div class="text-sm text-gray-500 ">
+        <p class="flex flex-row ml-2">
+          <a href="{%url 'user-profile' request.user.id%}">
+            <span>{{request.user}}</span>
+          </a>
+          <svg class="w-4 h-4 mx-12 mt-2 fill-current" id="nav_down_icon" onclick="{showElement()}"
+            xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+            <title>chevron-down</title>
+            <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+          </svg>
+
         </p>
-        <p>@{{user.username}}</p>
+        <div class="flex flex-row  ml-2">
+          <p>@{{user.username}}</p>
+          <div class="relative mx-5 bg-black  px-2 " id="drop_down_element" style="visibility:hidden;">
+            <div class="px-2 mx-2 ">
+              <p>
+                {% if request.user.is_authenticated %}
+              <p class="flex flex-row fill-current items-center">
+
+                <svg class="w-4 h-4" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                  viewBox="0 0 32 32">
+                  <title>sign-out</title>
+                  <path
+                    d="M3 0h22c0.553 0 1 0 1 0.553l-0 3.447h-2v-2h-20v28h20v-2h2l0 3.447c0 0.553-0.447 0.553-1 0.553h-22c-0.553 0-1-0.447-1-1v-30c0-0.553 0.447-1 1-1z">
+                  </path>
+                  <path
+                    d="M21.879 21.293l1.414 1.414 6.707-6.707-6.707-6.707-1.414 1.414 4.293 4.293h-14.172v2h14.172l-4.293 4.293z">
+                  </path>
+                </svg>
+                <a href="{% url 'logout' %}" class="ml-2">Logout</a>
+              </p>
+              {% else %}
+              <a href="{% url 'login' %}">Login</a>
+              {% endif %}
+              </p>
+              <p class="flex flex-row items-center">
+                <svg class="w-4 h-4 fill-current" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"
+                  height="32" viewBox="0 0 32 32">
+                  <title>ellipsis-horizontal</title>
+                  <path
+                    d="M16 7.843c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 1.98c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+                  </path>
+                  <path
+                    d="M16 19.908c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 14.046c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+                  </path>
+                  <path
+                    d="M16 31.974c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 26.111c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
+                  </path>
+                </svg>
+
+
+                <a href="" class="ml-2">setting</a>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   </div>
 </nav>
+
+<script>
+  var flag = 0;
+  icon = document.getElementById('drop_down_element');
+  element = document.getElementById('drop_down_element');
+  function showElement() {
+    if (flag == 0) {
+      element.style.visibility = 'visible';
+      flag = 1;
+    }
+    else {
+      element.style.visibility = 'hidden';
+      flag = 0;
+    }
+  }
+  // icon.addEventListner(click, () => { elements.style.color = 'red' })
+</script>

@@ -124,6 +124,24 @@ def userProfile(request,pk):
     return render(request,'base/profile.html',context)
 
 @login_required(login_url='login')
+def editProfile(request,pk):
+    user = User.objects.get(id = pk)
+    rooms = user.room_set.all()
+    
+    topics = Topic.objects.all()
+    room_messages = user.message_set.all()
+    if request.method =='POST':
+        pass
+    
+    context = {'user':user,
+               'rooms':rooms,
+               'room_messages':room_messages,
+               'topics':topics,
+               'visible_words':5,
+               }
+    return render(request,'base/edit_profile.html',context)
+
+@login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
     topics = Topic.objects.all

@@ -1,0 +1,52 @@
+{% extends "base/home.html" %} {%block home-content%}
+{% load static %}
+<div class="mt-10 mx-4">
+    <div class="bg-gray-700  text-white rounded ">
+        <div class=" flex flex-row bg-purple-700 rounded items-center pl-2">
+            <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}"
+                    class="w-4 h-4 " alt="left-arrow"></a>
+            <p class="text-xl text-gray-500 font-semibold ml-2">Edit profile</p>
+
+        </div>
+        <form method="POST" action="" class="my-2 w-full">
+            {% csrf_token %}
+            <!--form to create form-->
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm text-gray-400 pb-2">first Name</div>
+                <input type="text" name="first_name" placeholder="first name ..." required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+            </div>
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm text-gray-400 pb-2">Last Name</div>
+                <input type="text" name="last_name" placeholder="last name ..." required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+            </div>
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm text-gray-400 pb-2">Email</div>
+                <input type="email" name="email" placeholder="Enter email ..." required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+            </div>
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm text-gray-400 pb-2">Password</div>
+                <input type="password" name="password" placeholder="Enter password ..." required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+            </div>
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm text-gray-400 pb-2">Profile picture</div>
+                <input type="file" name="profile_picture" required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+            </div>
+            <div class="mx-6 my-2 pb-2">
+                <div class="text-sm pb-2 text-gray-400">Bio</div>
+                <textarea name="last_name" placeholder="Enter Bio..." id="desc_text"
+                    class="focus:outline-none focus:border-yellow-500 w-full px-4 bg-gray-500 rounded bg-opacity-50 text-sm py-2 border border-green-500 "></textarea>
+            </div>
+
+            <div class="flex flex-row justify-end mr-2 pr-2  pb-4">
+                <input type="reset" value="Cancel" class="mr-2 px-2 py-1 bg-gray-500 rounded hover:bg-red-500">
+                <input type="submit" value="Update" class="bg-green-400 rounded px-2 py-1 hover:bg-blue-700" />
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock home-content %}
