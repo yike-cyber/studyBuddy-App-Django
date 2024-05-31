@@ -1,6 +1,6 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-row grid-cols-4 gap-2  w-full">
+<div class="grid grid-flow-row grid-cols-4 gap-2 ">
   <!--Topic start-->
   <div class="sm:col-span-1 sm:block hidden max-h-screen overflow-y-auto scrolbar-thin">
     <div class="col-span-1">
@@ -13,17 +13,28 @@
   <!--Room list start-->
   <div class="col-span-4 sm:col-span-2 text-gray-500 max-h-screen overflow-y-auto scrolbar-thin px-0 mx-0 ">
     {%block home-content%}
-    <div class="flex flex-row items-center justify-between  mx-1">
+    <div>
+      <div class="flex flex-row items-center justify-between  mx-1">
 
-      <div>
-        <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
-        <h5 class="text-sm text-gray-300">{{room_count}} Rooms available</h5>
+        <div>
+          <p class="text-teal-500 text-lg font-semibold">Study Rooms </p>
+          <h5 class="text-sm text-gray-300 ">{{room_count}} Rooms available</h5>
+        </div>
+        <a href="{% url 'create-room' %}" class="mr-2">
+          <button class=" bg-yellow-200 rounded py-1 px-2"><img src="{%static 'assets/icons/add.svg'%}"
+              class="w-4 h-4 inline mx-1 " alt="create_room">Create Room</button>
+        </a>
+
+      </div>
+      <div class="flex flex-row justify-between mx-2 sn:hidden">
+        <a href="{% url 'topics' %}" class="mr-2">
+          <button class=" bg-teal-700 rounded py-1 px-2 ">Topics</button>
+        </a>
+        <a href="{% url 'activities' %}" class="mr-2">
+          <button class=" bg-blue-700 rounded py-1 ">Recent Activities</button>
+        </a>
       </div>
 
-      <a href="{% url 'create-room' %}" class="mr-2">
-        <button class=" bg-yellow-200 rounded py-1 px-2"><img src="{%static 'assets/icons/add.svg'%}"
-            class="w-4 h-4 inline mx-1 " alt="create_room">Create Room</button>
-      </a>
     </div>
 
 

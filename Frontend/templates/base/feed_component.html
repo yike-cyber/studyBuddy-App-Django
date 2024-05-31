@@ -22,7 +22,10 @@
             <div class="mx-2">
                 <p>{{room.participants.count}} Joined</p>
             </div>
-            <p class="mx-2 text-lg font-medium"><small>{{room.topic.name}}</small></p>
+            <a href="{% url 'home' %}?q={{room.topic.name}}">
+                <p class="mx-2 text-lg font-medium"><small>{{room.topic.name}}</small></p>
+            </a>
+
         </div>
         {% if room.host == request.user %}
         <div class="flex flex-row py-2 mx-2">

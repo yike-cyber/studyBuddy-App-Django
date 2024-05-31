@@ -1,13 +1,13 @@
 {% load static %}
-<nav class="grid grid-cols-3 justify-start w-screen mx-0 sm:justify-between items-center bg-gray-900  left-0 top-0 m">
+<nav class="grid grid-cols-3 justify-start w-screen mx-0 sm:justify-between items-center bg-gray-900  left-0 py-2">
   <div class=" col-span-2 flex justify-start sm:ml-2 sm:items-center">
-    <div class="flex flex-row sm:items-center justify-start">
-      <a href="/" class="mt-1">
-        <img src="{% static '/images/logo.svg' %}" alt="profile_img" class=" w-4 h-4 sm:w-8 sm:h-8 rounded" />
+    <div class="flex flex-row sm:items-center justify-start mr-2">
+      <a href="/" class="mt-1 px-2">
+        <img src="{% static '/images/logo.svg' %}" alt="profile_img" class=" w-8 h-8 sm:w-8 sm:h-8 rounded" />
       </a>
       <h2 class="text-white hidden sm:block sm:text-4xl sm:ml-1 sm:pl-1 sm:mt-1 text-sm">StudyBuddy</h2>
     </div>
-    <div class=" flex flex-row sm:ml-4 pb-0">
+    <div class=" flex flex-row sm:ml-4 pb-0 ml-2 ">
       <form action="{% url 'home' %}" method="GET" class=" flex flex-row rounded sm:px-2 mb-0 pb-0 ">
         <input
           class="focus:outline-none focus:border-yellow-500 text-sm sm:px-2 py-2  bg-gray-500 sm:w-64 rounded bg-opacity-50 border border-green-500"
@@ -25,27 +25,26 @@
   </div>
 
   <div class=" col-span-1 sm:mr-2 text-white sm:mr-16 sm:pr-16">
-    <div class=" flex flex-row sm:ml-4 sm:sm:px-4 pb-0 pt-2 justify-end ">
-      <div class="relative">
-        <img src="{%static 'images/Yike.png' %}" alt="" class="w-8 h-8 rounded-full">
+    <div class=" flex flex-row items-center  sm:ml-4 sm:sm:px-4 pb-0 pt-2 justify-end ">
+      <div class="relative  mr-2">
+        <img src="{%static 'images/Yike.png' %}" alt="" class="w-8 h-8 rounded-full mx-2">
         <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
           </span>
       </div>
-      <div class="text-sm text-gray-500 ">
-        <p class="flex flex-row sm:ml-2">
+      <div class="text-sm text-gray-500  h-8">
+        <p class="flex flex-row sm:ml-2 items-center">
           <a href="{%url 'user-profile' request.user.id%}">
             <span>{{request.user}}</span>
           </a>
-          <svg class="w-4 h-4 sm:mx-12 mt-2 fill-current" id="nav_down_icon" onclick="{showElement()}"
+          <svg class="w-4 h-4 sm:ml-8 mt-2 fill-current" id="nav_down_icon" onclick="{showElement()}"
             xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
             <title>chevron-down</title>
             <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
           </svg>
 
         </p>
-        <div class="flex flex-row justify-center  sm:ml-2">
-          <p>@{{user.username}}</p>
-          <div class="relative sm:mx-5 bg-black  sm:px-2 " id="drop_down_element" style="visibility:hidden;">
+        <div class=" sm:ml-2 mr-2 " id="drop_down_element" style="visibility:hidden;">
+          <div class="relative sm:mx-5 bg-black  sm:px-2  py-2 px-2">
             <div class="sm:px-2 sm:mx-2 ">
               <p>
                 {% if request.user.is_authenticated %}

@@ -1,0 +1,58 @@
+{%extends 'base/home.html'%}
+
+{%block home-content%}
+
+{%load static %}
+
+<div class="mr-2">
+
+    <h3 class="bg-purple-700 opacity-75 ml-4 mt-3 pl-4  py-2 rounded flex flex-row items-center"><a
+            href="{{request.META.HTTP_REFERER}}" class="px-2"><img src="{% static 'assets/icons/arrow-left.svg' %}"
+                class="w-4 h-4 " alt="left-arrow"></a>
+        <span>Recent Activity</span>
+    </h3>
+
+    <div class=" bg-gray-700  ml-4 mt-3 px-2 py-2 rounded">
+        {% for message in room_messages %}
+        <div class=" border border-green-600 m-2 p-2 rounded">
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-row">
+                    <div class="relative">
+                        <img src="{%static 'images/yike.png' %}" class="w-8 h-8 rounded-full inline" alt="">
+                        <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                            </span>
+                    </div>
+                    <div class="ml-2 ">
+                        <small> <a href="{% url 'user-profile' message.user.id %}"
+                                class="text-teal-500">@{{message.user}}
+
+                            </a>
+                        </small>
+                        <p class="text-sm font-thin">{{message.created|timesince}} ago</p>
+                        <p class="text-md text-teal-500">replied to post <a
+                                href="{% url 'room' message.room.id %}">"{{message.room}}"</a>
+                        </p>
+                    </div>
+                </div>
+                {% if request.user == message.user %}
+                <a href="{% url 'delete-message' message.id %}"><img src="{%static 'assets/icons/remove.svg' %}"
+                        class="w-4 w-4" alt="delete"></a>
+                {% endif %}
+
+            </div>
+            <div class="flex flex-row mx-2 items-center">
+                <p class="bg-gray-900 mt-3 px-2 py-2 rounded">{{message|truncatewords:visible_words}}</p>
+                {% if request.user == message.user %}
+                <a href="{% url 'edit-message' message.id %}" class="px-2 py-2"><img
+                        src="{%static 'assets/icons/edit.svg' %}" class="w-4 w-4" alt="edit"></a>
+                {% endif %}
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+{%endblock home-content%}

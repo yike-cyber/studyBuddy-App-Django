@@ -12,7 +12,8 @@ urlpatterns = [
     path('user-profile/<str:pk>/',views.userProfile,name='user-profile'),
     path('edit-profile/<str:pk>/',views.editProfile,name='edit-profile'),
     
-    
+    path('topics/',views.getTopics,name='topics'),
+    path('recent-activities/',views.getActivities,name='activities'),
     path('create-room/',views.createRoom,name='create-room'),
     path('update-room/<str:pk>/',views.updateRoom,name='update-room'),
     path('delete-room/<str:pk>/',views.deleteRoom,name='delete-room'),

@@ -65,13 +65,6 @@ def registerPage(request):
            login(request,user)
            return redirect('login')
         
-        # if form.is_valid():
-        #     user = form.save(commit=False)
-        #     user.username = user.username.lower()
-        #     user.save()
-        #     login(request,user)
-        #     return redirect('home')
-        
     return render(request,'base/login_register.html',{'form':form})
 
 @login_required(login_url='login')
@@ -105,6 +98,26 @@ def room(request,pk):
                }
              
     return render(request,'base/room.html',context )
+
+@login_required(login_url='login')
+def getTopics(request):
+    topics = Topic.objects.all()
+    context  = {
+        'topics':topics,
+    }
+    
+    return render(request,'base/show_topics.html',context)
+
+@login_required(login_url='login')
+def getActivities(request):
+    user = User.objects.get(username = request.user.username)
+    room_messages = user.message_set.all().order_by('-created')
+    context  = {
+        'room_messages':room_messages,
+        'visible_words':5
+    }
+    
+    return render(request,'base/show_recent.html',context)
 
 
 @login_required(login_url='login')

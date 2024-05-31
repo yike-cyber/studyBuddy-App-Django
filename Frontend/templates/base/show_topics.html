@@ -1,0 +1,27 @@
+{% extends 'base/home.html'%}
+{%load static %}
+{%block home-content%}
+
+<div class=" bg-gray-700 overflow-y-scroll max-h-screen ">
+
+    <h3 class="bg-purple-700 opacity-75 ml-4 mt-3 pl-4  py-2 rounded flex flex-row items-center"><a
+            href="{{request.META.HTTP_REFERER}}" class="px-2"><img src="{% static 'assets/icons/arrow-left.svg' %}"
+                class="w-4 h-4 " alt="left-arrow"></a>
+        <span>Browse Topics</span>
+    </h3>
+
+    <div class=" border border-green-600 m-2 p-2 rounded">
+        <a href="" class="mx-4">All <span
+                class="px-2  mx-3 bg-gray-200  rounded text-blue-400">{{topics.count}}</span></a>
+        {% for topic in topics %}
+        <div class="flex flex-row justify-between text-gray-200  my-5 mx-3">
+            <a href="{% url 'home'   %}?q={{topic.name}}"
+                class="hover:border-l hover:border-green-500 hover:rounded">{{topic.name}} </a>
+            <p class="px-2  mx-3 bg-gray-200  rounded text-blue-400">{{topic.room_set.all.count}}</p>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock home-content%}
