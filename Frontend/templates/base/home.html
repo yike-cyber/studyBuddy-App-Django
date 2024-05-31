@@ -1,8 +1,8 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-col grid-cols-4 gap-4  w-full">
+<div class="grid grid-flow-row grid-cols-4 gap-2  w-full">
   <!--Topic start-->
-  <div class="col-span-1 max-h-screen overflow-y-auto scrolbar-thin">
+  <div class="sm:col-span-1 sm:block hidden max-h-screen overflow-y-auto scrolbar-thin">
     <div class="col-span-1">
       {% include 'base/topics_component.html' %}
     </div>
@@ -11,7 +11,7 @@
 
 
   <!--Room list start-->
-  <div class="col-span-2 text-gray-500 max-h-screen overflow-y-auto scrolbar-thin px-0 mx-0">
+  <div class="col-span-4 sm:col-span-2 text-gray-500 max-h-screen overflow-y-auto scrolbar-thin px-0 mx-0 ">
     {%block home-content%}
     <div class="flex flex-row items-center justify-between  mx-1">
 
@@ -33,7 +33,7 @@
   <!--Room list end-->
 
   <!--Activities start-->
-  <div class="col-span-1 max-h-screen overflow-y-auto scrolbar-thin">
+  <div class="sm:col-span-1 hidden sm:block max-h-screen overflow-y-auto scrolbar-thin">
     <div class="col-span-3">
       {% include 'base/activity_component.html' %}
     </div>
