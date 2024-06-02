@@ -19,7 +19,7 @@
           value="{{room.topic.name}}">
 
 
-        <datalist class="topic_list">
+        <datalist id="topic_list">
           <select id="room_topic">
             {% for topic in topics %}
             <option value="{{topic.name}}">{{topic.name}}</option>

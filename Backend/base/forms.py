@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Room
+from .models import Room,User
 
 
 class RoomForm(ModelForm):
@@ -7,3 +7,10 @@ class RoomForm(ModelForm):
         model=Room
         fields = '__all__'  # or can filter the field as list
         exclude = ['host','participants']
+        
+class UpdateUserForm(ModelForm):
+    class Meta:
+        model=User
+        fields = '__all__'
+        
+        

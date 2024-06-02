@@ -6,9 +6,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login , logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from django.db.models.functions import MD5
+
 
 from .models import Room ,Topic,Message,User
-from . forms import RoomForm
+from . forms import RoomForm,UpdateUserForm
 
 from .common import mainView
 
@@ -19,14 +21,14 @@ def loginPage(request):
         return redirect('home')
     
     if request.method == 'POST':
-        username = request.POST.get('username').lower()
+        email = request.POST.get('email').lower()
         password = request.POST.get('password')
     
         print(request.POST.get('password'))
-        print(request.POST.get('username'))
+        print(request.POST.get('email'))
         try:
-           user = authenticate(username = username,password=password)
-           print(user.username)
+           user = authenticate(email = email,password=password)
+           print(user.email)
         except:
             messages.error(request,'user doesn\'t esist')
         
@@ -45,7 +47,7 @@ def logoutUser(request):
     return redirect('login')
 
 def registerPage(request):
-    form = UserCreationForm()
+    # form = UserRegistrationForm()
     if request.method == 'POST':
         # form = UserCreationForm(request.POST)
         username = request.POST.get('username').lower()
@@ -65,7 +67,7 @@ def registerPage(request):
            login(request,user)
            return redirect('login')
         
-    return render(request,'base/login_register.html',{'form':form})
+    return render(request,'base/login_register.html')
 
 @login_required(login_url='login')
 def home(request):
@@ -144,7 +146,22 @@ def editProfile(request,pk):
     topics = Topic.objects.all()
     room_messages = user.message_set.all()
     if request.method =='POST':
-        pass
+       
+        user = User.objects.get(id=pk)
+        user.name = request.POST.get('name')
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        user.bio = request.POST.get('bio')
+        if request.POST.get('password') != None:
+            user.password  = MD5(request.POST.get('password'))
+        if request.FILES.get('profileImage') == None:
+             user.avatar = user.avatar
+        else:
+            user.avatar = request.FILES.get('profileImage')
+        user.save()
+        return redirect('home')
+        
+            
     
     context = {'user':user,
                'rooms':rooms,

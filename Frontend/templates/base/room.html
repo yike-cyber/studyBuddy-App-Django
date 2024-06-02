@@ -14,7 +14,7 @@
         <p>Hosted By</p>
         <div class="flex flex-row">
           <div class="relative">
-            <img src="{%static 'images/yike.png' %}" class="w-8 h-8 rounded-full inline" alt="">
+            <img src="{{room.host.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
             <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
               </span>
           </div>
@@ -43,12 +43,13 @@
           <div class="flex flex-row justify-between">
             <div class="flex flex-row">
               <div class="relative">
-                <img src="{%static 'images/yike.png' %}" class="w-8 h-8 rounded-full inline" alt="">
+                <img src="{{message.user.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
                 <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
                   </span>
               </div>
               <div class="ml-2 flex flex-row">
-                <small> <a href="{% url 'user-profile' message.user.id %}" class="text-teal-500">@{{message.user}}
+                <small> <a href="{% url 'user-profile' message.user.id %}"
+                    class="text-teal-500">@{{message.user.username}}
 
                   </a>
                 </small>
@@ -95,13 +96,13 @@
     {% for user in participants%}
     <div class="flex flex-row mt-2 px-2 mx-2">
       <div class="relative">
-        <img src="{%static 'images/yike.png' %}" class="w-8 h-8 rounded-full inline" alt="">
+        <img src="{{user.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
         <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
           </span>
       </div>
       <div class="ml-2 text-gray-500 font-normal">
         <p class="text-teal-500 ">@{{user.username}}</p>
-        <p>software Developer</p>
+        <p>{{user.bio|truncatewords:'20'}}</p>
       </div>
 
     </div>
