@@ -109,14 +109,24 @@ APPEND_SLASH = False
 
 
 # Static files (CSS, JavaScript, Images)
+
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+MEDIA_URL ='/images/'
+STATIC_URL = 'Frontend/static/'
+
 STATICFILES_DIRS = [
     BASE_DIR / 'Frontend' / 'static',  # Add this line
 ]
 
- 
+MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'/'images'
+
+
+
+
+
+BASE_USER_PERMISSIONS = True
+AUTH_USER_MODEL = 'base.User'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
