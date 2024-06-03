@@ -78,14 +78,15 @@
               onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}">reply
               {{message.id}}</small>
           <div id="input_field{{message.id}}" style="display: none;">
-            <form method="post" action='/reply-message/'>
-              {% csrf_token %}
+            <form>
+
               <div class="mx-20 my-2 pb-2">
                 <input type="text" hidden name="messageId" value="{{message.id}}">
                 <input type="email" hidden name="replier" value={{request.user.email}}>
-                <input type="text" name="body" placeholder="reply here . . ." required
+                <input type="text" id="message_gody{{messa.id}}" name="body" placeholder="reply here . . ." required
                   class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
-                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit">reply</button>
+                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit"
+                  onclick="{handleSubmit()}">reply</button>
               </div>
             </form>
             <div>
@@ -116,12 +117,38 @@
                 console.log('clicked', 'flag = ', flag)
 
               }
+
               else {
 
-                element.style.display = 'none';
+                let data = () =>
+                  element.style.display = 'none';
                 flag = 0;
                 console.log('none clicked', 'flag = ', flag)
               }
+            }
+
+
+
+            let handleSubmit = async () => {
+              console.log('handle submit clicked');
+              let data = {
+                body: document.getElementById('message_gody{{messa.id}}').value,
+                messageId: '{{ message.id }}',
+                replier: '{{request.user.id}}'
+              };
+
+
+
+              fetch('/replyMessage/', {
+                method: 'POST',
+                headers: {
+                  'content-type': 'application/json'
+                },
+                body: JSON.stringify(data),
+
+              }
+              );
+
             }
             // icon.addEventListner(click, () => { elements.style.color = 'red' })
           </script>

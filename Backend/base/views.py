@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.db.models.functions import MD5
 
 
-from .models import Room ,Topic,Message,User,ReplyMessage
+from .models import Room ,Topic,Message,User,ReplyMessage,MessageLog,RoomLog
 from . forms import RoomForm,UpdateUserForm
 
 from .common import mainView
@@ -79,7 +79,7 @@ def home(request):
 @login_required(login_url='login')
 def room(request,pk):
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all().order_by('-created')
+    room_messages = room.message_set.filter(is_deleted = False).order_by('-created')
      
     participants = room.participants.all()
     replies = []
@@ -92,22 +92,16 @@ def room(request,pk):
         )
         room.participants.add(request.user)
         return redirect('room',pk = room.id)
-    if len(room_messages):
-        for message in room_messages:
-            try:
-                reply = ReplyMessage.objects.get(message = message)
-                replies.append(reply)
-           
-            except:
-                pass
+    
     print(replies)
-        
+    print(len(room_messages))
+            
     context = {'room':room,
                'current_user': request.user,
                'room_messages':room_messages,
                 'visible_words':100,
                'participants':participants,
-               'replies':replies
+               'replies':room_messages
                }
              
     return render(request,'base/room.html',context )
@@ -139,7 +133,7 @@ def userProfile(request,pk):
     rooms = user.room_set.all()
     
     topics = Topic.objects.all()
-    room_messages = user.message_set.all()
+    room_messages = user.message_set.filter(is_deleted = False)
     
     context = {'user':user,
                'rooms':rooms,
@@ -242,7 +236,10 @@ def deleteRoom(request,pk):
         return HttpResponse('You are not allowed here!!.')
     
     if request.method == "POST":
-         room.delete()
+         room_log = RoomLog.objects.create(room = room)
+         room_log.save()
+         room.is_deleted = True
+         room.save()
          return redirect('home')
     context = {'room':room}
     return render(request,'base/delete.html',context)
@@ -255,7 +252,13 @@ def deleteMessage(request,pk):
         return HttpResponse('You are not allowed here!!.')
     
     if request.method == "POST":
-         message.delete()
+         message_log = MessageLog.objects.create(message = message)
+         message_log.save()
+         print(message_log.message.body[:5])
+         message.is_deleted = True
+         message.save()
+         print(message_log.message.body[:5])
+
          return redirect('home')
     
     context = {'message':message}
@@ -279,19 +282,21 @@ def editMessage(request,pk):
     return render(request,'base/edit_message.html',main_view)
 
 def replyMessage(request):
-    if request.method == 'POST':
-        print('post method is done',)
-        replier = User.objects.get(email = request.POST.get('replier'))
-        message = Message.objects.get(id =request.POST.get('messageId'))
-        room_id  = message.room.id
-        replied_text = request.POST.get('body')
-        replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
-        replied_message.save()
+    # if request.method == 'GET':
+    #     print('GET method is done',)
+    #     replier = User.objects.get(email = request.GET.get('replier'))
+    #     message = Message.objects.get(id =request.GET.get('messageId'))
+    #     room_id  = message.room.id
+    #     replied_text = request.GET.get('body')
+    #     replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
+    #     replied_message.save()
         
-        room_id = str(room_id)
+    #     room_id = str(room_id)
+    #     print(room_id,message)
         
-        return redirect('room',pk = room_id)
-    else:
+    #     return redirect('room',pk = room_id)
+    # else:
+    #     print('yike man')
         return redirect('home')
         
                 

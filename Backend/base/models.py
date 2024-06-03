@@ -28,6 +28,7 @@ class Room(models.Model):
     participants = models.ManyToManyField(User,related_name='participants',blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateField(auto_now_add=True)
+    is_deleted = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['-updated','-created']
@@ -43,6 +44,7 @@ class Message(models.Model):
     updated  = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     num_of_likes = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default=False)
     
     
     class Meta:
@@ -69,4 +71,18 @@ class ReplyMessage(models.Model):
 #     def __str__(self):
 #         return(self.message,self.liker)
     
+class MessageLog(models.Model):
+    message = models.ForeignKey(Message,on_delete=models.CASCADE)
+    deleted = models.DateTimeField(auto_now_add=True)
     
+    def __str__(self):
+        return self.message.user.username+'->'+self.message.room.name+'->'+self.message.body[:5]
+    
+class RoomLog(models.Model):
+    room = models.ForeignKey(Room,on_delete=models.CASCADE)
+    deleted = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.room.host.username+'->'+self.room.name+'->'+self.room.topic.name
+
+      
