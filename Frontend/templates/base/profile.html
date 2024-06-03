@@ -20,8 +20,10 @@
                 <p class="mx-2 mt-2 text-lg">
                     <a href="">{{user.username}}</a>
                 </p>
+                {%if user.username == request.user.username%}
                 <a href="{%url 'edit-profile' user.id %}"> <button class="shadow-outline rounded px-2 py-1 my-2">Edit
                         profile</button></a>
+                {%endif%}
             </div>
         </div>
         <div class="bg-gray-900 rounded px-2 py-2 opacity-75 w-full">

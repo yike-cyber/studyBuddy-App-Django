@@ -8,7 +8,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=200,unique=True)
     bio = models.TextField(max_length=500,null=True,blank=True)
-    avatar = models.ImageField(null=True,default='avatar.svg')
+    avatar = models.ImageField(null=True,default='avatar.svg',upload_to='')
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS =['username','password']
@@ -41,9 +41,11 @@ class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     room = models.ForeignKey (Room,on_delete=models.CASCADE)
     body = models.TextField()
+    liker = models.ManyToManyField(User,related_name='message_liker',blank=True)
     updated  = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
     num_of_likes = models.IntegerField(default=0)
+    num_of_replies = models.IntegerField(default=0)
     is_deleted = models.BooleanField(default=False)
     
     
@@ -60,6 +62,9 @@ class ReplyMessage(models.Model):
     updated = models.DateTimeField(auto_now=True)
     replied_text = models.TextField(max_length=2000)
     num_of_likes = models.IntegerField(default=0)
+    
+    class Meta:
+        ordering = ['-created','-updated']
     
     def __str__(self):
         return(self.message.room.name+self.message.body[:20]+self.replier.username)

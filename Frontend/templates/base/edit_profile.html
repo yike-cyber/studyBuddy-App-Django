@@ -8,7 +8,15 @@
             <p class="text-xl text-gray-500 font-semibold ml-2">Edit profile</p>
 
         </div>
+        {% if messages %}
+        <ul class="my-2 mx-20">
+            {% for message in messages %}
+            <li class="text-xs text-red-500 pb-2">{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <form method="POST" action="" class="my-2 w-full">
+
             {% csrf_token %}
             <!--form to create form-->
             <div class="mx-20 my-2 pb-2">

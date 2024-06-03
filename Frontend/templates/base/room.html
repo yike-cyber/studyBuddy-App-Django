@@ -2,7 +2,7 @@
 {%load static %}
 <div class="grid grid-flow-col grid-cols-4 gap-2">
 
-  <div class=" bg-gray-700 mx-2 col-span-3 max-h-screen overflow-y-auto scrolbar-thin">
+  <div class=" bg-dark mx-2 col-span-3 max-h-screen overflow-y-auto scrolbar-thin">
     <div class="flex flex-row items-center justify-start  mt-2 px-2 bg-purple-700 rounded">
       <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}" class="w-4 h-4 "
           alt="left-arrow"></a>
@@ -39,7 +39,7 @@
       <h3>Conversations</h3>
       <div class=" overflow-y-scroll">
         {% for message in room_messages %}
-        <div class=" border-l border-green-500 m-2 p-2 ">
+        <div class=" border-l border-green-500 m-2 p-2 bg-gray-700 rounded">
           <div class="flex flex-row justify-between">
             <div class="flex flex-row">
               <div class="relative">
@@ -53,7 +53,7 @@
 
                   </a>
                 </small>
-                <p class="text-sm font-thin ml-2">{{message.created|timesince}} ago
+                <p class="text-sm font-thin ml-2 mr-2">{{message.created|timesince}} ago
 
                 </p>
               </div>
@@ -72,30 +72,39 @@
             {{message|truncatewords:'100'}}
           </p>
           <p class="text-white py-1">
-            <small class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b ">likes
-              {{message.num_of_likes}}</small>
+            <a href="/like-message/{{message.id}}/{{request.user.id}}/"><small
+                class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b ">like
+                {{message.num_of_likes}}</small>
+            </a>
             <small class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b " id="show_reply_input{{message.id}}"
               onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}">reply
-              {{message.id}}</small>
+              {{message.num_of_replies}}</small>
           <div id="input_field{{message.id}}" style="display: none;">
-            <form>
 
+
+            <form method="POST" action="/reply-message/">
+              {%csrf_token%}
               <div class="mx-20 my-2 pb-2">
                 <input type="text" hidden name="messageId" value="{{message.id}}">
                 <input type="email" hidden name="replier" value={{request.user.email}}>
-                <input type="text" id="message_gody{{messa.id}}" name="body" placeholder="reply here . . ." required
-                  class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
-                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit"
-                  onclick="{handleSubmit()}">reply</button>
+                <input type="text" id="message_gody{{message.id}}" name="body" placeholder="reply here . . ." required
+                  class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500 mb-2">
+                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit">reply</button>
               </div>
             </form>
-            <div>
+            <div class="bg-gray-700 px 2 py-2 w-full text-white rounded">
               {% for reply in replies%}
               {%if reply.message.id == message.id%}
-              <div class="bg-gray-600">
-                <p class="text-white">{{reply.replier.username}}</p>
-                <p class="text-sm text-white">{{reply.created}}</p>
-                <p>{{reply.replied_text}}</p>
+              <div class=" px-2 py-2">
+                <div class="flex flex-row justify-between">
+                  <p class="text-white flex flex-row">
+                    <img src="{{reply.replier.avatar.url}}" class="w-5 h-5 rounded-full mr-2" alt="">
+                    <small class="inline text-green-500">@{{reply.replier.username}} replied to <span
+                        class="text-white text-bold mx-2">{{reply.message.body|truncatewords:'10'}}</span></small>
+                  </p>
+                  <p class="text-xs text-white  mr-2 ">{{reply.created|timesince}} ago</p>
+                </div>
+                <p class="bg-gray-900 text-white text-sm py-2 px-2 rounded">{{reply.replied_text}}</p>
               </div>
               {%endif%}
 
@@ -119,38 +128,12 @@
               }
 
               else {
-
-                let data = () =>
-                  element.style.display = 'none';
+                element.style.display = 'none';
                 flag = 0;
                 console.log('none clicked', 'flag = ', flag)
               }
             }
 
-
-
-            let handleSubmit = async () => {
-              console.log('handle submit clicked');
-              let data = {
-                body: document.getElementById('message_gody{{messa.id}}').value,
-                messageId: '{{ message.id }}',
-                replier: '{{request.user.id}}'
-              };
-
-
-
-              fetch('/replyMessage/', {
-                method: 'POST',
-                headers: {
-                  'content-type': 'application/json'
-                },
-                body: JSON.stringify(data),
-
-              }
-              );
-
-            }
-            // icon.addEventListner(click, () => { elements.style.color = 'red' })
           </script>
 
         </div>

@@ -7,6 +7,8 @@ from django.contrib.auth import authenticate,login , logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.db.models.functions import MD5
+from itertools import chain # for list
+
 
 
 from .models import Room ,Topic,Message,User,ReplyMessage,MessageLog,RoomLog
@@ -17,18 +19,15 @@ from .common import mainView
 
 def loginPage(request):
     page = 'login'
-    if request.user.is_authenticated:
-        return redirect('home')
+    # if request.user.is_authenticated:
+    #     return redirect('home')
     
     if request.method == 'POST':
         email = request.POST.get('email').lower()
         password = request.POST.get('password')
-    
-        print(request.POST.get('password'))
-        print(request.POST.get('email'))
+        print('password:',password,'email:',email)
         try:
-           user = authenticate(email = email,password=password)
-           print(user.email)
+           user = User.objects.get(email=email,password=password)
         except:
             messages.error(request,'user doesn\'t esist')
         
@@ -50,6 +49,7 @@ def registerPage(request):
     # form = UserRegistrationForm()
     if request.method == 'POST':
         # form = UserCreationForm(request.POST)
+        email = request.POST.get('email')
         username = request.POST.get('username').lower()
         password  = request.POST.get('password')
         password2 = request.POST.get('password2')
@@ -57,12 +57,17 @@ def registerPage(request):
         if User.objects.filter(username =username):
             messages.error(request,'user name already exist!')
             return redirect('register')
+        
+        elif User.objects.filter(email =email):
+            messages.error(request,'email already exist!')
+            return redirect('register')
+        
         elif password != password2:
             messages.error(request,'password mismatch!')
             return redirect('register')
         
         else:
-           user = User.objects.create(username = username,password = password)
+           user = User.objects.create(username = username,password = password,email= email)
            user.save()
            login(request,user)
            return redirect('login')
@@ -82,7 +87,6 @@ def room(request,pk):
     room_messages = room.message_set.filter(is_deleted = False).order_by('-created')
      
     participants = room.participants.all()
-    replies = []
     if request.method == 'POST':
         message = Message.objects.create(
             user = request.user,
@@ -93,15 +97,19 @@ def room(request,pk):
         room.participants.add(request.user)
         return redirect('room',pk = room.id)
     
+    replies = []
+    for message in room_messages:
+        reply = ReplyMessage.objects.filter(message=message)
+        replies.append(reply)
+    
+    replies =  list(chain(*replies))
     print(replies)
-    print(len(room_messages))
-            
     context = {'room':room,
                'current_user': request.user,
                'room_messages':room_messages,
                 'visible_words':100,
                'participants':participants,
-               'replies':room_messages
+               'replies':replies
                }
              
     return render(request,'base/room.html',context )
@@ -153,21 +161,31 @@ def editProfile(request,pk):
     if request.method =='POST':
        
         user = User.objects.get(id=pk)
-        user.name = request.POST.get('name')
-        user.username = request.POST.get('username')
-        user.email = request.POST.get('email')
-        user.bio = request.POST.get('bio')
-        if request.POST.get('password') != None:
-            user.password  = MD5(request.POST.get('password'))
-        if request.FILES.get('profileImage') == None:
-             user.avatar = user.avatar
-        else:
-            user.avatar = request.FILES.get('profileImage')
-        user.save()
-        return redirect('home')
         
-            
-    
+        if User.objects.filter(username =request.POST.get('username')).exclude(username = user.username).count() !=0:
+            messages.error(request,'user name exist change other')
+            return redirect('edit-profile',pk)
+        
+        elif User.objects.filter(email =request.POST.get('email')).exclude(email = user.email).count()!=0:
+            messages.error(request,'email already exist change other')
+            return redirect('edit-profile',pk)
+        else: 
+             user.email = request.POST.get('email')
+             user.username = request.POST.get('username')
+             user.bio = request.POST.get('bio')
+             user.name = request.POST.get('name')
+             print(request.FILES.get('profileImage'))
+            #  if request.POST.get('password') != None:
+            #     user.password  = MD5(request.POST.get('password'))
+             if request.FILES.get('profileImage') == None:
+                print(user.avatar)
+                user.avatar = user.avatar
+             else:
+                user.avatar = request.FILES.get('profileImage')
+             user.save()
+             print(user.avatar)
+             return redirect('home')
+        
     context = {'user':user,
                'rooms':rooms,
                'room_messages':room_messages,
@@ -191,7 +209,7 @@ def createRoom(request):
             name = request.POST.get('name'),
             description = request.POST.get('description')
             
-        )
+        ) 
         room.save()
         #form = RoomForm(request.POST)
         # if form.is_valid():
@@ -282,22 +300,33 @@ def editMessage(request,pk):
     return render(request,'base/edit_message.html',main_view)
 
 def replyMessage(request):
-    # if request.method == 'GET':
-    #     print('GET method is done',)
-    #     replier = User.objects.get(email = request.GET.get('replier'))
-    #     message = Message.objects.get(id =request.GET.get('messageId'))
-    #     room_id  = message.room.id
-    #     replied_text = request.GET.get('body')
-    #     replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
-    #     replied_message.save()
-        
-    #     room_id = str(room_id)
-    #     print(room_id,message)
-        
-    #     return redirect('room',pk = room_id)
-    # else:
-    #     print('yike man')
+    if request.method == 'POST':
+        print('GET method is done',)
+        replier = User.objects.get(email = request.POST.get('replier'))
+        message = Message.objects.get(id =request.POST.get('messageId'))
+        room_id  = message.room.id
+        replied_text = request.POST.get('body')
+        replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
+        replied_message.save()
+        message.num_of_replies+=1
+        message.save()
+        room_id = str(room_id)        
+        return redirect('room',pk = room_id)
+    else:
         return redirect('home')
         
-                
+           
+def likeMessage(request,pk,userId):
+    user = User.objects.get(id = userId)
+    message = Message.objects.get(id = pk)
+    
+    print(message.liker)
+    if message.liker(user):
+       message.num_of_likes-=1
+    else:
+        message.num_of_likes+=1
+    message.save()
+    roomId = message.room.id
+    return redirect('room',pk = roomId)
+         
     
