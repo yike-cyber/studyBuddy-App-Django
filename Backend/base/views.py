@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.db.models.functions import MD5
 
 
-from .models import Room ,Topic,Message,User
+from .models import Room ,Topic,Message,User,ReplyMessage
 from . forms import RoomForm,UpdateUserForm
 
 from .common import mainView
@@ -82,7 +82,7 @@ def room(request,pk):
     room_messages = room.message_set.all().order_by('-created')
      
     participants = room.participants.all()
-    
+    replies = []
     if request.method == 'POST':
         message = Message.objects.create(
             user = request.user,
@@ -92,11 +92,22 @@ def room(request,pk):
         )
         room.participants.add(request.user)
         return redirect('room',pk = room.id)
+    if len(room_messages):
+        for message in room_messages:
+            try:
+                reply = ReplyMessage.objects.get(message = message)
+                replies.append(reply)
+           
+            except:
+                pass
+    print(replies)
+        
     context = {'room':room,
                'current_user': request.user,
                'room_messages':room_messages,
                 'visible_words':100,
                'participants':participants,
+               'replies':replies
                }
              
     return render(request,'base/room.html',context )
@@ -266,3 +277,22 @@ def editMessage(request,pk):
     main_view.update(message)
     print(message)
     return render(request,'base/edit_message.html',main_view)
+
+def replyMessage(request):
+    if request.method == 'POST':
+        print('post method is done',)
+        replier = User.objects.get(email = request.POST.get('replier'))
+        message = Message.objects.get(id =request.POST.get('messageId'))
+        room_id  = message.room.id
+        replied_text = request.POST.get('body')
+        replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
+        replied_message.save()
+        
+        room_id = str(room_id)
+        
+        return redirect('room',pk = room_id)
+    else:
+        return redirect('home')
+        
+                
+    

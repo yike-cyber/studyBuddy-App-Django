@@ -53,7 +53,9 @@
 
                   </a>
                 </small>
-                <p class="text-sm font-thin ml-2">{{message.created|timesince}} ago</p>
+                <p class="text-sm font-thin ml-2">{{message.created|timesince}} ago
+
+                </p>
               </div>
             </div>
 
@@ -69,8 +71,63 @@
             class="bg-gray-400 bg-opacity-25 border-b border-yellow-200 border-opacity-50 mt-3 px-2 py-2 rounded text-sm table">
             {{message|truncatewords:'100'}}
           </p>
+          <p class="text-white py-1">
+            <small class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b ">likes
+              {{message.num_of_likes}}</small>
+            <small class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b " id="show_reply_input{{message.id}}"
+              onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}">reply
+              {{message.id}}</small>
+          <div id="input_field{{message.id}}" style="display: none;">
+            <form method="post" action='/reply-message/'>
+              {% csrf_token %}
+              <div class="mx-20 my-2 pb-2">
+                <input type="text" hidden name="messageId" value="{{message.id}}">
+                <input type="email" hidden name="replier" value={{request.user.email}}>
+                <input type="text" name="body" placeholder="reply here . . ." required
+                  class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit">reply</button>
+              </div>
+            </form>
+            <div>
+              {% for reply in replies%}
+              {%if reply.message.id == message.id%}
+              <div class="bg-gray-600">
+                <p class="text-white">{{reply.replier.username}}</p>
+                <p class="text-sm text-white">{{reply.created}}</p>
+                <p>{{reply.replied_text}}</p>
+              </div>
+              {%endif%}
+
+              {%endfor%}
+            </div>
+          </div>
+          </p>
+          </p>
+
+          <script>
+            var flag = 0;
+
+            function replyTo(messageId, InputField) {
+              icon = document.getElementById(messageId);
+              element = document.getElementById(InputField);
+              if (flag == 0) {
+                element.style.display = 'block';
+                flag = 1;
+                console.log('clicked', 'flag = ', flag)
+
+              }
+              else {
+
+                element.style.display = 'none';
+                flag = 0;
+                console.log('none clicked', 'flag = ', flag)
+              }
+            }
+            // icon.addEventListner(click, () => { elements.style.color = 'red' })
+          </script>
 
         </div>
+
 
         {% endfor %}
       </div>

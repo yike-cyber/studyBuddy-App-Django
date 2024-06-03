@@ -42,10 +42,31 @@ class Message(models.Model):
     body = models.TextField()
     updated  = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    num_of_likes = models.IntegerField(default=0)
+    
     
     class Meta:
         ordering = ['-updated','-created']
         
     def __str__(self):
         return self.body
+    
+class ReplyMessage(models.Model):
+    message = models.ForeignKey(Message,on_delete=models.CASCADE)
+    replier = models.ForeignKey(User,on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    replied_text = models.TextField(max_length=2000)
+    num_of_likes = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return(self.message.room.name+self.message.body[:20]+self.replier.username)
+    
+# class LikeMessage(models.Model):
+#     message = models.ForeignKey(Message,on_delete=models.CASCADE)
+#     liker = models.ForeignKey(User,on_delete=models.CASCADE)
+    
+#     def __str__(self):
+#         return(self.message,self.liker)
+    
     

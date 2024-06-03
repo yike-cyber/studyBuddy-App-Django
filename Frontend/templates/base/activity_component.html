@@ -32,7 +32,10 @@
 
             </div>
             <div class="flex flex-row mx-2 items-center">
-                <p class="bg-gray-900 mt-3 px-2 py-2 rounded">{{message|truncatewords:visible_words}}</p>
+                <p class="bg-gray-900 mt-3 px-2 py-2 rounded">
+                <p>{{message|truncatewords:visible_words}}
+
+                </p>
                 {% if request.user == message.user %}
                 <a href="{% url 'edit-message' message.id %}" class="px-2 py-2"><img
                         src="{%static 'assets/icons/edit.svg' %}" class="w-4 w-4" alt="edit"></a>
