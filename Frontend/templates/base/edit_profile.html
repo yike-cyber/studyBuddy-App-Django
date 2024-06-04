@@ -15,14 +15,14 @@
             {% endfor %}
         </ul>
         {% endif %}
-        <form method="POST" action="" class="my-2 w-full">
+        <form method="POST" action="" enctype="multipart/form-data" class="my-2 w-full">
 
             {% csrf_token %}
             <!--form to create form-->
             <div class="mx-20 my-2 pb-2">
                 <div class="text-sm text-gray-400 pb-2">Profile photo</div>
-                <small>current photo <img src="{{user.avatar.url}}" class="w-20 h-20 px-4 text-white inline"
-                        alt="photo">{{user.avatar.url}}</small>
+                <small class="mb-2">current photo <img src="{{user.avatar.url}}"
+                        class="w-20 h-15 px-4 text-white inline pb-2" alt="photo">{{user.avatar.url}}</small>
                 <input type="file" name="profileImage"
                     class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
             </div>

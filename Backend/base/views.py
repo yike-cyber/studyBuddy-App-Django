@@ -8,6 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.db.models.functions import MD5
 from itertools import chain # for list
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -312,8 +314,11 @@ def replyMessage(request):
         replied_message.save()
         message.num_of_replies+=1
         message.save()
-        room_id = str(room_id)        
-        return redirect('room',pk = room_id)
+        room_id = str(room_id)   
+        context = {
+            'data':'sucesfull'
+        }     
+        return JsonResponse(context)
     else:
         return redirect('home')
 

@@ -82,27 +82,31 @@
                 {{message.num_of_likes}}</small>
             </a>
             <small class="mx-2 items-center py-1 px-2   rounded-b " id="show_reply_input{{message.id}}"
-              onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}"><img
+              onclick="{showReplyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}"><img
                 src="{%static 'assets/icons/reply_icon.png'%}" class="w-4 h-4 rounded-full inline " alt="reply">
               {{message.num_of_replies}}</small>
           <div id="input_field{{message.id}}" style="display: none;">
 
 
-            <form method="POST" action="/reply-message/">
-              {%csrf_token%}
+            <form id="reply-form-{{message.id}}" method="POST" action="/reply-message/">
+              {% csrf_token %}
               <div class="mx-20 my-2 pb-2 ">
                 <input type="text" hidden name="messageId" value="{{message.id}}">
-                <input type="email" hidden name="replier" value={{request.user.email}}>
+                <input type="email" hidden name="replier" value="{{request.user.email}}">
                 <div class="flex flex-row">
-                  <input type="text" id="message_gody{{message.id}}" name="body" placeholder="reply here . . ." required
-                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+                  <input type="text" id="message_body_{{message.id}}" name="body" placeholder="reply here . . ."
+                    required
+                    class="focus:outline-none focus:border-yellow-500 text-sm px-2 py-2 bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
                   <button class="" type="submit">
-                    <img src="{%static 'assets/icons/send_icon.png'%}" class="w-8 h-8 ml-1 rounded-full"
+                    <img src="{% static 'assets/icons/send_icon.png' %}" class="w-8 h-8 ml-1 rounded-full"
                       alt="send_icon">
                   </button>
                 </div>
+                <small id="status-message-{{message.id}}" class="text-green-500 text "></small>
               </div>
+
             </form>
+
             <div class=" bg-gray-800 bg-opacity-75 px-2 mx-2 py-2 w-full text-white rounded">
               {% for reply in replies%}
               {%if reply.message.id == message.id%}
@@ -110,7 +114,7 @@
                 <div class="flex flex-row justify-between">
                   <p class="text-white flex flex-row">
                     <img src="{{reply.replier.avatar.url}}" class="w-5 h-5 rounded-full mr-2" alt="">
-                    <small class="inline text-green-500">@{{reply.replier.username}} replied to <span
+                    <small class="inline text-teal-500">@{{reply.replier.username}} replied to <span
                         class="text-white text-bold mx-2">{{reply.message.body|truncatewords:'10'}}</span></small>
                   </p>
                   <p class="text-xs text-white  mr-2 ">{{reply.created|timesince}} ago</p>
@@ -140,7 +144,7 @@
           <script>
             var flag = 0;
 
-            function replyTo(messageId, InputField) {
+            function showReplyTo(messageId, InputField) {
               icon = document.getElementById(messageId);
               element = document.getElementById(InputField);
               if (flag == 0) {
@@ -156,6 +160,41 @@
                 console.log('none clicked', 'flag = ', flag)
               }
             }
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+              const form = document.getElementById('reply-form-{{message.id}}');
+              const statusMessage = document.getElementById('status-message-{{message.id}}');
+
+              form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                const url = form.action;
+                const formData = new FormData(form);
+                const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                try {
+                  const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                      'X-CSRFToken': csrfToken
+                    },
+                    body: formData
+                  });
+
+                  if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('message_body_{{message.id}}').value = '';
+                    statusMessage.innerText = 'Reply submitted successfully';
+                  } else {
+                    const errorData = await response.json();
+                    console.error('Error submitting reply:');
+                  }
+                } catch (error) {
+                  console.error('Error submitting reply:', error);
+                }
+              });
+            });
 
           </script>
 
