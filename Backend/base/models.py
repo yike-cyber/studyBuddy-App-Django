@@ -69,12 +69,6 @@ class ReplyMessage(models.Model):
     def __str__(self):
         return(self.message.room.name+self.message.body[:20]+self.replier.username)
     
-# class LikeMessage(models.Model):
-#     message = models.ForeignKey(Message,on_delete=models.CASCADE)
-#     liker = models.ForeignKey(User,on_delete=models.CASCADE)
-    
-#     def __str__(self):
-#         return(self.message,self.liker)
     
 class MessageLog(models.Model):
     message = models.ForeignKey(Message,on_delete=models.CASCADE)

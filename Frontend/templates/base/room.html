@@ -70,32 +70,43 @@
           <p
             class="bg-gray-400 bg-opacity-25 border-b border-yellow-200 border-opacity-50 mt-3 px-2 py-2 rounded text-sm table">
             {{message|truncatewords:'100'}}
+            {% if request.user == message.user %}
+            <a href="{% url 'edit-message' message.id %}" class="px-2 inline"><img
+                src="{%static 'assets/icons/edit.svg' %}" class="w-4 w-4 inline" alt="edit"></a>
+            {% endif %}
           </p>
           <p class="text-white py-1">
             <a href="/like-message/{{message.id}}/{{request.user.id}}/"><small
-                class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b ">like
+                class="mx-2 items-center py-1 px-2 rounded-b "><img src="{%static 'assets/icons/like_icon.jpg'%}"
+                  class="w-4 h-4 rounded-full inline " alt="like">
                 {{message.num_of_likes}}</small>
             </a>
-            <small class="mx-2 items-center py-1 px-2 bg-green-600  rounded-b " id="show_reply_input{{message.id}}"
-              onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}">reply
+            <small class="mx-2 items-center py-1 px-2   rounded-b " id="show_reply_input{{message.id}}"
+              onclick="{replyTo('show_reply_input{{message.id}}','input_field{{message.id}}')}"><img
+                src="{%static 'assets/icons/reply_icon.png'%}" class="w-4 h-4 rounded-full inline " alt="reply">
               {{message.num_of_replies}}</small>
           <div id="input_field{{message.id}}" style="display: none;">
 
 
             <form method="POST" action="/reply-message/">
               {%csrf_token%}
-              <div class="mx-20 my-2 pb-2">
+              <div class="mx-20 my-2 pb-2 ">
                 <input type="text" hidden name="messageId" value="{{message.id}}">
                 <input type="email" hidden name="replier" value={{request.user.email}}>
-                <input type="text" id="message_gody{{message.id}}" name="body" placeholder="reply here . . ." required
-                  class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500 mb-2">
-                <button class="button-small bg-blue-700 px-2 py-1 rounded inline" type="submit">reply</button>
+                <div class="flex flex-row">
+                  <input type="text" id="message_gody{{message.id}}" name="body" placeholder="reply here . . ." required
+                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-full rounded bg-opacity-50 border border-green-500">
+                  <button class="" type="submit">
+                    <img src="{%static 'assets/icons/send_icon.png'%}" class="w-8 h-8 ml-1 rounded-full"
+                      alt="send_icon">
+                  </button>
+                </div>
               </div>
             </form>
-            <div class="bg-gray-700 px 2 py-2 w-full text-white rounded">
+            <div class=" bg-gray-800 bg-opacity-75 px-2 mx-2 py-2 w-full text-white rounded">
               {% for reply in replies%}
               {%if reply.message.id == message.id%}
-              <div class=" px-2 py-2">
+              <div class=" px-2 py-2 bg-gray-700 bg-opacity-75">
                 <div class="flex flex-row justify-between">
                   <p class="text-white flex flex-row">
                     <img src="{{reply.replier.avatar.url}}" class="w-5 h-5 rounded-full mr-2" alt="">
@@ -103,8 +114,20 @@
                         class="text-white text-bold mx-2">{{reply.message.body|truncatewords:'10'}}</span></small>
                   </p>
                   <p class="text-xs text-white  mr-2 ">{{reply.created|timesince}} ago</p>
+                  <a href="{% url 'delete-reply' reply.id %}" class="px-2 inline "><img
+                      src="{%static 'assets/icons/remove.svg' %}" class="w-4 w-4  inline" alt="edit"></a>
                 </div>
-                <p class="bg-gray-900 text-white text-sm py-2 px-2 rounded">{{reply.replied_text}}</p>
+                <p class="bg-gray-600 bg-opacity-75 shadow shadow-md text-white text-sm py-2 px-2 rounded">
+
+                  {{reply.replied_text}}
+                  {% if request.user == message.user %}
+                  <a href="{% url 'edit-reply' reply.id %}" class="px-2 inline"><img
+                      src="{%static 'assets/icons/edit.svg' %}" class="w-4 w-4 bg-gray-400 bg-opacity-50 inline"
+                      alt="edit"></a>
+
+                  {% endif %}
+                </p>
+
               </div>
               {%endif%}
 

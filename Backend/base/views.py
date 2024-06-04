@@ -299,6 +299,8 @@ def editMessage(request,pk):
     print(message)
     return render(request,'base/edit_message.html',main_view)
 
+
+
 def replyMessage(request):
     if request.method == 'POST':
         print('GET method is done',)
@@ -314,19 +316,56 @@ def replyMessage(request):
         return redirect('room',pk = room_id)
     else:
         return redirect('home')
+
+def editReply(request,pk):
+    print(pk)
+    message_replied = ReplyMessage.objects.get(id = pk)
+    print(message_replied)
+    if request.user != message_replied.replier:
+        return HttpResponse('You are not allowed here!!.')
+    
+    if request.method == "POST":
+         message_replied.replied_text = request.POST.get('body')
+         message_replied.save()
+         return redirect('home')
+    
+    q = request.GET.get('q')
+    message_replied = {'message':message_replied}
+    main_view = mainView(request,q)
+    main_view.update(message_replied)
+    return render(request,'base/edit_reply.html',main_view)
+ 
+def deleteReply(request,pk):
+    replied_message = ReplyMessage.objects.get(id =pk)
+    roomId = replied_message.message.room.id
+    if request.user != replied_message.replier:
+        return HttpResponse('You are not allowed here!!.')
+    
+    if request.method == "POST":
+        message = replied_message.message
+        message.num_of_replies-=1
+        message.save()
+        replied_message.delete()
+        return redirect('room',pk=roomId)
+    
+    context = {'message':replied_message}
+    return render(request,'base/delete.html',context)
         
            
-def likeMessage(request,pk,userId):
-    user = User.objects.get(id = userId)
-    message = Message.objects.get(id = pk)
+def likeMessage(request, pk, userId):
+    user = User.objects.get(id=userId)
+    message = Message.objects.get(id=pk)
     
-    print(message.liker)
-    if message.liker(user):
-       message.num_of_likes-=1
+    if user in message.liker.all():
+        message.liker.remove(user)
+        message.num_of_likes -= 1
     else:
-        message.num_of_likes+=1
+        message.liker.add(user)
+        message.num_of_likes += 1
+        
     message.save()
     roomId = message.room.id
-    return redirect('room',pk = roomId)
+    return redirect('room', pk=roomId)
+
          
     
