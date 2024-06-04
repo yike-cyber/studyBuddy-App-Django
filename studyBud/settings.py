@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     
+    
 ]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
@@ -112,14 +113,14 @@ APPEND_SLASH = False
 
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-MEDIA_URL ='/images/'
+MEDIA_URL ='/media/'
 STATIC_URL = 'Frontend/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'Frontend' / 'static',  # Add this line
 ]
 
-MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'/'images'
+MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'
 
 
 

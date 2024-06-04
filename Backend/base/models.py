@@ -8,21 +8,25 @@ class User(AbstractUser):
     password = models.CharField(max_length=100)
     email = models.EmailField(max_length=200,unique=True)
     bio = models.TextField(max_length=500,null=True,blank=True)
-    avatar = models.ImageField(null=True,default='avatar.svg',upload_to='')
-    
+    avatar = models.ImageField(null=True,default='images/avatar.svg',upload_to='images/profile_images')
+    last_activity = models.DateTimeField(null=True, blank=True)
+    is_online = models.BooleanField(default=False)
+        
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS =['username','password']
         
 
+
+    
 class Topic(models.Model):
     name = models.CharField(max_length=200)
     
     def __str__(self):
         return self.name 
-
 class Room(models.Model): 
     host = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     topic = models.ForeignKey(Topic,on_delete=models.SET_NULL,null=True)
+    roomImage = models.ImageField(null=True ,default='images/room_images/default_room_image.png',upload_to='images/room_images')
     name = models.CharField(max_length=200)
     description = models.TextField(null=True,blank=True)
     participants = models.ManyToManyField(User,related_name='participants',blank=True)

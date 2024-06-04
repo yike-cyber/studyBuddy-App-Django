@@ -17,33 +17,34 @@ from .models import Room ,Topic,Message,User,ReplyMessage,MessageLog,RoomLog
 from . forms import RoomForm,UpdateUserForm
 
 from .common import mainView
-
+from .online_status import update_online_status,clear_online_status
 
 def loginPage(request):
     page = 'login'
-    # if request.user.is_authenticated:
-    #     return redirect('home')
-    
+
+    if request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         email = request.POST.get('email').lower()
         password = request.POST.get('password')
-        print('password:',password,'email:',email)
+
         try:
-           user = User.objects.get(email=email,password=password)
-        except:
-            messages.error(request,'user doesn\'t esist')
-        
-        if user is not None: 
-            login(request,user)
-            return redirect('home')
-        else:
-            messages.info(request,'Crediental is invalid')
-            return redirect('login')
-    else:
-        context = {'page':page}
-        return render(request,'base/login_register.html',context)
+            user = User.objects.get(email=email)
+            if user.check_password(password):
+                login(request, user)
+                update_online_status(None,user,request)
+                return redirect('home')
+            else:
+                messages.error(request, 'Incorrect password.')
+        except User.DoesNotExist:
+            messages.error(request, 'User does not exist.')
+    
+    context = {'page': page}
+    return render(request, 'base/login_register.html', context)
     
 def logoutUser(request):
+    clear_online_status(None,request.user,request)
     logout(request)
     return redirect('login')
 
@@ -198,26 +199,24 @@ def editProfile(request,pk):
 
 @login_required(login_url='login')
 def createRoom(request):
-    form = RoomForm()
     topics = Topic.objects.all
      
     if request.method =='POST':
         topic_name = request.POST.get('topic')
         topic,created = Topic.objects.get_or_create(name=topic_name)
-        
+       
         room =  Room.objects.create(
             host = request.user,
             topic = topic,
             name = request.POST.get('name'),
-            description = request.POST.get('description')
+            description = request.POST.get('description')           
             
         ) 
         room.save()
-        #form = RoomForm(request.POST)
-        # if form.is_valid():
-        #    room =  form.save(commit=False)
-        #    room.host = request.user
-        #    room.save()
+        if 'roomImage' in request.FILES:
+            room.roomImage = request.FILES['roomImage']
+            room.save()
+            
         return redirect('create-room')
         
     context = {

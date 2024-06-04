@@ -20,14 +20,13 @@ def mainView(request,q):
                                                Q(is_deleted = False)&
                                                Q(room__is_deleted = False)
                                                
-                                               )
-        
-        
+                                               )        
         context ={'rooms':rooms,
                 'room_count':room_count,
                 'topics':topic,
                 'room_messages':room_messages,
                 'visible_words':5,
+                
                     
                 }
         return context

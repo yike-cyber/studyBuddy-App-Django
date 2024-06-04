@@ -26,11 +26,15 @@
 
   <div class=" col-span-1 sm:mr-2 text-white sm:mr-16 sm:pr-16">
     <div class=" flex flex-row items-center  sm:ml-4 sm:sm:px-4 pb-0 pt-2 justify-end ">
+      {% if request.user.is_authenticated %}
       <div class="relative  mr-2">
         <img src="{{request.user.avatar.url}}" alt="" class="w-8 h-8 rounded-full mx-2">
-        <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+
+        <p {% if user.is_online %} class=" bg-green-500 w-2 h-2 absolute rounded-full" {%else%}
+          class=" bg-red-500 w-2 h-2 absolute rounded-full" {%endif%} style="top: 1rem;right: 0;">
           </span>
       </div>
+      {%endif%}
       <div class="text-sm text-gray-500  h-8">
         <p class="flex flex-row sm:ml-2 items-center">
           <a href="{%url 'user-profile' request.user.id%}">

@@ -1,6 +1,6 @@
 {% extends "main.html" %} {% block content %}
 {%load static %}
-<div class="grid grid-flow-col grid-cols-4 gap-2">
+<div class="grid grid-flow-col grid-cols-4 gap-2 ">
 
   <div class=" bg-dark mx-2 col-span-3 max-h-screen overflow-y-auto scrolbar-thin">
     <div class="flex flex-row items-center justify-start  mt-2 px-2 bg-purple-700 rounded">
@@ -10,25 +10,33 @@
     </div>
     <div class="flex flex-row justify-between mt-2 px-2">
       <div class="w-auto">
-        <h2 class="font-semibold text-md text-teal-500">{{room.name}}</h2>
-        <p>Hosted By</p>
-        <div class="flex flex-row">
-          <div class="relative">
-            <img src="{{room.host.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
-            <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
-              </span>
-          </div>
-          <div class="ml-2 font-normal">
-            <p class="text-teal-500 "> <a href="{%url 'user-profile' room.host.id %}">@{{room.host.username}}</a></p>
-          </div>
+        <div class="flex flex-row items-center space-x-2">
+          <img src="{{room.roomImage.url}}" class="w-10 h-10 rounded " alt="room Image">
+          <h2 class="font-semibold text-lg text-gray-400">{{room.name}} <span class="text-teal-500 text-md">Room</span>
+          </h2>
+        </div>
 
+        <div class="font-normal ml-2  px-2 text-sm rounded my-2">
+          <p>Hosted By</p>
+          <div class="flex flex-row">
+            <div class="relative">
+              <img src="{{room.host.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
+              <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                </span>
+            </div>
+            <div class="ml-2 font-normal">
+              <p class="text-teal-500 "> <a href="{%url 'user-profile' room.host.id %}">@{{room.host.username}}</a></p>
+            </div>
+
+          </div>
         </div>
-        <div class="font-normal ml-2 bg-gray-900 px-2 text-sm rounded my-2">
-          <p class="w-full py-3 px-2">{{room.description}}</p>
+        <div class="grid grid-flow-col grid-cols-4 gap-5 items-center col-span-4">
+          <p class="col-span-3 py-3 px-2 ">{{room.description}}</p>
+          <a href="{% url 'home'   %}?q={{room.topic.name}}" class="col-span-1">
+            <p class=" mt-2  font-sm bg-gray-600 rounded px-2  text-sm ">{{room.topic.name}}</p>
+          </a>
         </div>
-        <a href="{% url 'home'   %}?q={{room.topic.name}}" class="w-full">
-          <p class=" mt-2  font-sm bg-gray-600 rounded px-2  text-sm w-full">{{room.topic.name}}</p>
-        </a>
+
       </div>
       <p class="text-sm mr-2">{{room.created|timesince}} ago</p>
     </div>
@@ -37,7 +45,7 @@
 
     <div class="mx-2 bg-gray-900  ">
       <h3>Conversations</h3>
-      <div class=" overflow-y-scroll">
+      <div>
         {% for message in room_messages %}
         <div class=" border-l border-green-500 m-2 p-2 bg-gray-700 rounded">
           <div class="flex flex-row justify-between">

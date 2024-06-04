@@ -9,7 +9,7 @@
         {%endif%}</p>
 
     </div>
-    <form method="POST" action="" class="my-4">
+    <form method="POST" action="" enctype="multipart/form-data" class="my-4">
       {% csrf_token %}
       <!--form to create form-->
       <div class="mx-20 my-2 pb-2">
@@ -27,6 +27,11 @@
             {%endfor%}
           </select>
         </datalist>
+      </div>
+      <div class="mx-20 my-2 pb-2">
+        <div class="text-sm text-gray-400 pb-2">Room Image</div>
+        <input type="file" name="roomImage"
+          class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500">
       </div>
       <div class="mx-20 my-2 pb-2">
         <div class="text-sm text-gray-400 pb-2">Room Name</div>

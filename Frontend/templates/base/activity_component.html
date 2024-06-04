@@ -10,7 +10,8 @@
                 <div class="flex flex-row">
                     <div class="relative">
                         <img src="{{message.user.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
-                        <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                        <p {% if message.user.is_online %} class=" bg-green-500 w-2 h-2 absolute rounded-full" {%else%}
+                            class=" bg-red-500 w-2 h-2 absolute rounded-full" {%endif%} style="top: 1rem;right: 0;">
                             </span>
                     </div>
                     <div class="ml-2 ">
