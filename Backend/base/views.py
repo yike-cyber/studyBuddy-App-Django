@@ -11,6 +11,11 @@ from itertools import chain # for list
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+import os
+from django.conf import settings
+from django.core .files import File
+from pathlib import Path
+
 
 
 from .models import Room ,Topic,Message,User,ReplyMessage,MessageLog,RoomLog
@@ -94,9 +99,28 @@ def room(request,pk):
         message = Message.objects.create(
             user = request.user,
             room = room,
-            body = request.POST.get('body')
-            
+            body = request.POST.get('body')    
         )
+        message.save()
+        if request.FILES.get('message_file'):
+            print(request.FILES.get('message_file'))
+
+        if 'message_file' in request.FILES:
+            message_file = request.FILES.get('message_file')
+            file_type = message_file.name.split('.')
+            if file_type[1] == 'png' or 'jpg' or 'jpeg':
+               print(file_type[1])
+               print('yike',message_file)
+               message.video = message_file
+               message.save()
+            elif file_type[1] == 'mp4' or 'MP4':
+                message.video = message_file
+                message.save()
+            elif file_type[1] == 'mp3' or 'MP3':
+                message.audio = message_file
+                message.save()
+                
+           
         room.participants.add(request.user)
         return redirect('room',pk = room.id)
     
@@ -106,7 +130,6 @@ def room(request,pk):
         replies.append(reply)
     
     replies =  list(chain(*replies))
-    print(replies)
     context = {'room':room,
                'current_user': request.user,
                'room_messages':room_messages,
