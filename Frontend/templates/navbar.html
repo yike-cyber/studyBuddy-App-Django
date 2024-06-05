@@ -7,6 +7,7 @@
       </a>
       <h2 class="text-white hidden sm:block sm:text-4xl sm:ml-1 sm:pl-1 sm:mt-1 text-sm">StudyBuddy</h2>
     </div>
+    {% if request.user.is_authenticated %}
     <div class=" flex flex-row sm:ml-4 pb-0 ml-2 ">
       <form action="{% url 'home' %}" method="GET" class=" flex flex-row rounded sm:px-2 mb-0 pb-0 ">
         <input
@@ -22,6 +23,7 @@
         </button>
       </form>
     </div>
+    {%endif%}
   </div>
 
   <div class=" col-span-1 sm:mr-2 text-white sm:mr-16 sm:pr-16">
@@ -70,24 +72,6 @@
               <a href="{% url 'login' %}">Login</a>
               {% endif %}
               </p>
-              <p class="flex flex-row items-center">
-                <svg class="w-4 h-4 fill-current" version="1.1" xmlns="http://www.w3.org/2000/svg" width="32"
-                  height="32" viewBox="0 0 32 32">
-                  <title>ellipsis-horizontal</title>
-                  <path
-                    d="M16 7.843c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 1.98c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
-                  </path>
-                  <path
-                    d="M16 19.908c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 14.046c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
-                  </path>
-                  <path
-                    d="M16 31.974c-2.156 0-3.908-1.753-3.908-3.908s1.753-3.908 3.908-3.908c2.156 0 3.908 1.753 3.908 3.908s-1.753 3.908-3.908 3.908zM16 26.111c-1.077 0-1.954 0.877-1.954 1.954s0.877 1.954 1.954 1.954c1.077 0 1.954-0.877 1.954-1.954s-0.877-1.954-1.954-1.954z">
-                  </path>
-                </svg>
-
-
-                <a href="" class="ml-2">setting</a>
-              </p>
             </div>
           </div>
         </div>
@@ -97,19 +81,4 @@
   </div>
 </nav>
 
-<script>
-  var flag = 0;
-  icon = document.getElementById('drop_down_element');
-  element = document.getElementById('drop_down_element');
-  function showElement() {
-    if (flag == 0) {
-      element.style.visibility = 'visible';
-      flag = 1;
-    }
-    else {
-      element.style.visibility = 'hidden';
-      flag = 0;
-    }
-  }
-  // icon.addEventListner(click, () => { elements.style.color = 'red' })
-</script>
+<script src="{%static 'js/navbar.js'%}"></script>

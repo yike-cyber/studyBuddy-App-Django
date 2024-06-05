@@ -11,14 +11,16 @@
       </div>
       <div class="flex flex-col  sm:hidden items-center bg-opacity-25 ">
         <p>Participants</p>
-        <svg onclick="{showParticipants()}" class="w-4 h-4 sm:ml-8 mt-2 fill-current" xmlns="http://www.w3.org/2000/svg"
-          width="32" height="32" viewBox="0 0 32 32">
-          <title>chevron-down</title>
-          <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
-        </svg>
+        <p onclick="{showParticipants()}">
+          <svg class="w-4 h-4 sm:ml-8 mt-2 fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+            viewBox="0 0 32 32">
+            <title>chevron-down</title>
+            <path d="M16 21l-13-13h-3l16 16 16-16h-3l-13 13z"></path>
+          </svg>
+        </p>
 
 
-        <div class="absolute pt-12 w-64" id="Participants_id" style="display: none;">
+        <div class="absolute mt-12" id="Participants_id" style="display: none;">
           {% include 'base/participants.html'%}
         </div>
 
@@ -167,63 +169,7 @@
           </p>
           </p>
 
-          <script>
-            var flag = 0;
-
-            function showReplyTo(messageId, InputField) {
-              icon = document.getElementById(messageId);
-              element = document.getElementById(InputField);
-              if (flag == 0) {
-                element.style.display = 'block';
-                flag = 1;
-                console.log('clicked', 'flag = ', flag)
-
-              }
-
-              else {
-                element.style.display = 'none';
-                flag = 0;
-                console.log('none clicked', 'flag = ', flag)
-              }
-            }
-
-
-            document.addEventListener('DOMContentLoaded', function () {
-              const form = document.getElementById('reply-form-{{message.id}}');
-              const statusMessage = document.getElementById('status-message-{{message.id}}');
-
-              form.addEventListener('submit', async function (event) {
-                event.preventDefault();
-
-                const url = form.action;
-                const formData = new FormData(form);
-                const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                try {
-                  const response = await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                      'X-CSRFToken': csrfToken
-                    },
-                    body: formData
-                  });
-
-                  if (response.ok) {
-                    const data = await response.json();
-                    document.getElementById('message_body_{{message.id}}').value = '';
-                    statusMessage.innerText = 'Reply submitted successfully';
-                  } else {
-                    const errorData = await response.json();
-                    console.error('Error submitting reply:');
-                  }
-                } catch (error) {
-                  console.error('Error submitting reply:', error);
-                }
-              });
-            });
-
-          </script>
-
+          <script src="{% static '/js/room.js' %}"></script>
         </div>
 
 
@@ -257,7 +203,9 @@
           </span>
       </div>
       <div class="ml-2 text-gray-500 font-normal">
-        <p class="text-teal-500 ">@{{user.username}}</p>
+        <a href="{%url 'user-profile' user.id%}">
+          <p class="text-teal-500 ">@{{user.username}}</p>
+        </a>
         <p>{{user.bio|truncatewords:'20'}}</p>
       </div>
 
@@ -268,23 +216,4 @@
 
 </div>
 
-<script>
-  let showFlag = false;
-
-  let showParticipants = () => {
-
-    if (showFlag == false) {
-      document.getElementById('Participants_id').style.display = 'block';
-      flag = true;
-      console.log(flag)
-    }
-    else {
-      document.getElementById('Participants_id').style.display = 'none';
-      showFlag = true;
-      console.log(flag)
-
-    }
-
-  }
-</script>
 {% endblock content %}

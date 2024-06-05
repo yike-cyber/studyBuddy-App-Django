@@ -239,6 +239,9 @@ def updateRoom(request,pk):
         room.topic = topic
         room.description = request.POST.get('description')
         room.save()
+        if 'roomImage' in request.FILES:
+            room.roomImage = request.FILES['roomImage']
+            room.save()
         return redirect('home')
     
     context = {'room':room,
@@ -314,10 +317,7 @@ def replyMessage(request):
         message.num_of_replies+=1
         message.save()
         room_id = str(room_id)   
-        context = {
-            'data':'sucesfull'
-        }     
-        return JsonResponse(context)
+        return redirect('room',pk = room_id)
     else:
         return redirect('home')
 
