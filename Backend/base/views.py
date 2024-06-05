@@ -141,7 +141,7 @@ def getActivities(request):
 @login_required(login_url='login')
 def userProfile(request,pk):
     user = User.objects.get(id = pk)
-    rooms = user.room_set.all()
+    rooms = user.room_set.filter(is_deleted=False)
     
     topics = Topic.objects.all()
     room_messages = user.message_set.filter(is_deleted = False)

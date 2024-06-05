@@ -1,0 +1,21 @@
+{%load static%}
+
+<div class=" sm:grid-cols-4 bg-gray-700 mx-2   sm:block sm:col-span-1 max-h-screen overflow-y-auto scrolbar-thin">
+    <span class="text-sm ">{{room.participants.count}} Joined</span>
+
+    {% for user in participants%}
+    <div class="flex flex-row mt-2 px-2 mx-2">
+        <div class="relative">
+            <img src="{{user.avatar.url}}" class="w-8 h-8 rounded-full inline" alt="">
+            <p class="bg-green-500 w-2 h-2 absolute rounded-full" style="top: 1rem;right: 0;">
+                </span>
+        </div>
+        <div class="ml-2 text-gray-500 font-normal">
+            <p class="text-teal-500 ">@{{user.username}}</p>
+            <p>{{user.bio|truncatewords:'20'}}</p>
+        </div>
+
+    </div>
+
+    {% endfor %}
+</div>
