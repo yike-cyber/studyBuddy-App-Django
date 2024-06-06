@@ -108,15 +108,16 @@ def room(request,pk):
         if 'message_file' in request.FILES:
             message_file = request.FILES.get('message_file')
             file_type = message_file.name.split('.')
-            if file_type[1] == 'png' or 'jpg' or 'jpeg':
-               print(file_type[1])
-               print('yike',message_file)
-               message.video = message_file
-               message.save()
-            elif file_type[1] == 'mp4' or 'MP4':
+            if file_type[1].lower() == 'mp4':
+                print(file_type[1])
                 message.video = message_file
+                print(file_type)
                 message.save()
-            elif file_type[1] == 'mp3' or 'MP3':
+            elif file_type[1].lower() == 'png' or 'jpg' or'jpeg':
+               message.image = message_file
+               message.save()
+            
+            elif file_type[1].lower() == 'mp3':
                 message.audio = message_file
                 message.save()
                 
@@ -335,10 +336,28 @@ def replyMessage(request):
         message = Message.objects.get(id =request.POST.get('messageId'))
         room_id  = message.room.id
         replied_text = request.POST.get('body')
+        
         replied_message = ReplyMessage(replier=replier,message = message,replied_text = replied_text)
         replied_message.save()
         message.num_of_replies+=1
         message.save()
+        
+
+        if 'replied_message_file' in request.FILES:
+            replied_message_file = request.FILES.get('replied_message_file')
+            file_type = replied_message_file.name.split('.')
+            
+            if file_type[1] == 'mp4' or 'MP4':
+                replied_message.video = replied_message_file
+                replied_message.save()
+            elif file_type[1].lower == 'png' or 'jpg' or 'jpeg':
+                print(file_type[1])
+                replied_message.image = replied_message_file
+                replied_message.save()
+            elif file_type[1] == 'mp3' or 'MP3':
+                replied_message.audio = replied_message_file
+                replied_message.save()
+        
         room_id = str(room_id)   
         return redirect('room',pk = room_id)
     else:

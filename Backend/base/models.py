@@ -45,9 +45,9 @@ class Message(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     room = models.ForeignKey (Room,on_delete=models.CASCADE)
     body = models.TextField()
-    image = models.ImageField(null=True,upload_to='images/message_images')
-    video = models.FileField(null=True,upload_to='files/video_messages')
-    audio = models.FileField(null=True,upload_to='files/audio_messages')
+    image = models.ImageField(null=True,upload_to='files/messages/image_messages')
+    video = models.FileField(null=True,upload_to='files/messages/video_messages')
+    audio = models.FileField(null=True,upload_to='files/messages/audio_messages')
     liker = models.ManyToManyField(User,related_name='message_liker',blank=True)
     updated  = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -68,6 +68,10 @@ class ReplyMessage(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     replied_text = models.TextField(max_length=2000)
+    image = models.ImageField(null=True,upload_to='files/replied_messages/replied_image_messages')
+    video = models.FileField(null=True,upload_to='files/replied_messages/replied_video_messages')
+    audio = models.FileField(null=True,upload_to='files/replied_messages/replied_audio_messages')
+    
     num_of_likes = models.IntegerField(default=0)
     
     class Meta:
