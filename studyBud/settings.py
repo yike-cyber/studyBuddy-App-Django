@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-x5mg3bs@vi%sarl5=7=mbvk2@@$f6)xy3)qxz@h#kgt@z_#j*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -133,3 +133,4 @@ AUTH_USER_MODEL = 'base.User'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
