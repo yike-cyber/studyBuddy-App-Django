@@ -102,24 +102,25 @@ def room(request,pk):
             body = request.POST.get('body')    
         )
         message.save()
-        if request.FILES.get('message_file'):
-            print(request.FILES.get('message_file'))
-
+      
         if 'message_file' in request.FILES:
             message_file = request.FILES.get('message_file')
             file_type = message_file.name.split('.')
             if file_type[1].lower() == 'mp4':
-                print(file_type[1])
+                print('hello video',message_file)
                 message.video = message_file
-                print(file_type)
                 message.save()
-            elif file_type[1].lower() == 'png' or 'jpg' or'jpeg':
-               message.image = message_file
-               message.save()
-            
             elif file_type[1].lower() == 'mp3':
-                message.audio = message_file
+                print('hello audio',message_file)
+                message.audio= message_file
                 message.save()
+            elif file_type[1].lower() == 'png' or 'jpg' or 'jpeg':
+                print('hello image',message_file)
+                message.image= message_file
+                message.save()
+        
+            else:
+                pass
                 
            
         room.participants.add(request.user)
@@ -347,16 +348,18 @@ def replyMessage(request):
             replied_message_file = request.FILES.get('replied_message_file')
             file_type = replied_message_file.name.split('.')
             
-            if file_type[1] == 'mp4' or 'MP4':
+            if file_type[1].lower() == 'mp4':
                 replied_message.video = replied_message_file
+                message.save()
+            elif file_type[1].lower() == 'mp3':
+                replied_message.audio= replied_message_file
                 replied_message.save()
-            elif file_type[1].lower == 'png' or 'jpg' or 'jpeg':
-                print(file_type[1])
-                replied_message.image = replied_message_file
+            elif file_type[1].lower() == 'png' or 'jpg' or 'jpeg':
+                replied_message.image= replied_message_file
                 replied_message.save()
-            elif file_type[1] == 'mp3' or 'MP3':
-                replied_message.audio = replied_message_file
-                replied_message.save()
+        
+            else:
+                pass
         
         room_id = str(room_id)   
         return redirect('room',pk = room_id)
