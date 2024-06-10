@@ -1,4 +1,5 @@
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -122,6 +123,11 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'
 
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Set the STATIC_ROOT setting to a filesystem path where static files will be collected
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
