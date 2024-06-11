@@ -29,3 +29,4 @@ typing_extensions==4.12.2
 tzdata==2024.1
 virtualenv==20.25.1
 whitenoise==6.6.0
+python ==3.11.8
