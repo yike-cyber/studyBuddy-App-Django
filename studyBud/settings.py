@@ -132,8 +132,8 @@ MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'
 
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# # Set the STATIC_ROOT setting to a filesystem path where static files will be collected
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Set the STATIC_ROOT setting to a filesystem path where static files will be collected
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
