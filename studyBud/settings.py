@@ -1,6 +1,10 @@
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +20,7 @@ SECRET_KEY = 'django-insecure-x5mg3bs@vi%sarl5=7=mbvk2@@$f6)xy3)qxz@h#kgt@z_#j*8
 DEBUG = True
 
 # ALLOWED_HOSTS = ['.vercel.app']
-ALLOWED_HOSTS = ['*.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app','localhost','127.0.0.1']
 
 
 # Application definition

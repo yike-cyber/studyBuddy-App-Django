@@ -25,12 +25,5 @@
       "src": "/static/(.*)",
       "dest": "Frontend/static/$1"
     }
-  ],
-  "env": {
-    "POSTGRES_DB": "studyBud",
-    "POSTGRES_USER": "yike",
-    "POSTGRES_PASSWORD": "yikeber50",
-    "POSTGRES_HOST": "localhost",
-    "VIRTUAL_ENV": "/venv"
-  }
+  ]
 }
