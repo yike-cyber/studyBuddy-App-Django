@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-x5mg3bs@vi%sarl5=7=mbvk2@@$f6)xy3)qxz@h#kgt@z_#j*8
 DEBUG = True
 
 # ALLOWED_HOSTS = ['.vercel.app']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*.vercel.app']
 
 
 # Application definition
@@ -70,12 +70,12 @@ WSGI_APPLICATION = 'studyBud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'studyBud',
-        'USER':'yike',
-        'PASSWORD':'yikeber50',
-        'PORT': '5000',
-        'HOST':'localhost'
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': '5432',
     }
 }
 
