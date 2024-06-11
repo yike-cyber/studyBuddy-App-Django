@@ -15,7 +15,8 @@ SECRET_KEY = 'django-insecure-x5mg3bs@vi%sarl5=7=mbvk2@@$f6)xy3)qxz@h#kgt@z_#j*8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+# ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -28,14 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Backend.base',
-    'corsheaders',
-    'rest_framework',
+
     
     
 ]
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
+    
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,6 +72,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+      
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME':'studybudDb',
+        # 'USER':'yike',
+        # 'PASSWORD':'yikeber50',
+        # # 'HOST': 'localhost',
+        # # 'PORT': '5432',
     }
 }
 
@@ -124,10 +130,10 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = BASE_DIR /'Backend' /'base'/'media'
 
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Set the STATIC_ROOT setting to a filesystem path where static files will be collected
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# # Set the STATIC_ROOT setting to a filesystem path where static files will be collected
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 
