@@ -1,29 +1,15 @@
 {
-  "version": 2,
   "builds": [
     {
       "src": "studyBud/wsgi.py",
       "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.9",
-        "srcDir": ".",
-        "pythonVersion": "3.9"
-      }
-    },
-    {
-      "src": "Frontend/static/**",
-      "use": "@vercel/static"
+      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
       "dest": "studyBud/wsgi.py"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "Frontend/static/$1"
     }
   ]
 }
