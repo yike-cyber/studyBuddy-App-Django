@@ -6,7 +6,7 @@
 <!--message edit start-->
 <div class="h-screen">
     <div class="col-span-2 text-gray-500 mb-4 h-64">
-        <form action="" method="POST" class="bg-gray-700 pt-2 mt-3 rounded ">
+        <form action="" method="POST" class="bg-gray-700 pt-2 mt-3 rounded " enctype="multipart/form-data">
             <div class="flex flex-row bg-purple-700 rounded sm:mx-10 mx-3 px-5 py-1 items-center">
                 <a href="{{request.META.HTTP_REFERER}}"><img src="{% static 'assets/icons/arrow-left.svg' %}"
                         class="w-4 h-4 " alt="left-arrow"></a>
@@ -15,11 +15,34 @@
             {% csrf_token %}
             <div class="sm:mx-20 px-3 my-2 pb-2 ">
 
+                <div class="flex flex-row gap-2 items-center">
+                    {% if message.image %}
+
+                    <P>
+                        current image: <img src="{{message.image.url}}" class="w-50 h-40 py-2 px-2" alt="image">
+                    </P>
+
+                    {%endif%}
+
+                    {% if message.video %}
+                    <p>
+                        current video: <video src="{{message.video.url}}" type="video/mp4" controls width="200"
+                            height="200">
+                    </p>
+
+                    </video>
+                    {%endif%}
+
+                    {% if message.audio %}
+                    <p>
+                        current audio: <audio src="{{message.audio.url}}" controls></audio>
+                    </p>
+
+                    {%endif%}
+                    <input class="inline" type="file" name="message_file">
+                </div>
                 <textarea type="text" name="body" required
                     class=" w-full h-full flex-wrap focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500">{{message.body}}</textarea>
-
-                <input type="file" name="message_file"
-                    class=" focus:outline-none focus:border-yellow-500 text-sm px-2 py-2  bg-gray-500 w-64 rounded bg-opacity-50 border border-green-500">
                 <input type="submit" class="mt-2 bg-yellow-500 rounded p-2 m-2" value="Update">
             </div>
         </form>

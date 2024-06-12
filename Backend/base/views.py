@@ -319,7 +319,24 @@ def editMessage(request,pk):
     if request.method == "POST":
          message.body = request.POST.get('body')
          message.save()
+         if 'message_file' in request.FILES:
+            message_file = request.FILES.get('message_file')
+            file_type = message_file.name.split('.')
+            if file_type[1].lower() == 'mp4':
+                message.video = message_file
+                message.save()
+            elif file_type[1].lower() == 'mp3':
+                message.audio= message_file
+                message.save()
+            elif file_type[1].lower() == 'png' or 'jpg' or 'jpeg':
+                print('image edit')
+                message.image= message_file
+                message.save()
+        
+            else:
+                pass
          return redirect('home')
+         
     
     q = request.GET.get('q')
     message = {'message':message}
@@ -369,13 +386,29 @@ def replyMessage(request):
 def editReply(request,pk):
     print(pk)
     message_replied = ReplyMessage.objects.get(id = pk)
-    print(message_replied)
+    print(message_replied.replied_text)
     if request.user != message_replied.replier:
         return HttpResponse('You are not allowed here!!.')
     
     if request.method == "POST":
          message_replied.replied_text = request.POST.get('body')
          message_replied.save()
+         if 'replied_message_file' in request.FILES:
+            message_file = request.FILES.get('replied_message_file')
+            file_type = message_file.name.split('.')
+            if file_type[1].lower() == 'mp4':
+                message_replied.video = message_file
+                message_replied.save()
+            elif file_type[1].lower() == 'mp3':
+                message_replied.audio= message_file
+                message_replied.save()
+            elif file_type[1].lower() == 'png' or 'jpg' or 'jpeg':
+                print('image edit')
+                message_replied.image= message_file
+                message_replied.save()
+        
+            else:
+                pass
          return redirect('home')
     
     q = request.GET.get('q')
