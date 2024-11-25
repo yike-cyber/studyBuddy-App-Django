@@ -7,7 +7,7 @@
       "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
     },
     {
-      "src": "Frontend/static/css/styles.css",
+      "src": "studyBud/Frontend/static/css/styles.css",
       "use": "@vercel/static"
     }
   ],
